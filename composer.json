@@ -1,0 +1,37 @@
+{
+  "name": "fof/moderator-notes",
+  "description": "Create private notes for your forum users",
+  "keywords": [
+    "flarum"
+  ],
+  "type": "flarum-extension",
+  "license": "0BSD",
+  "require": {
+    "flarum/core": "^0.1.0-beta.8"
+  },
+  "authors": [
+    {
+      "name": "Ian Morland",
+      "email": "ianm@giffgaff.co.uk",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "FoF\\ModeratorNotes\\": "src/"
+    }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "FoF Moderator Notes",
+      "icon": {
+        "name": "fas fa-sticky-note",
+        "backgroundColor": "#e74c3c",
+        "color": "#fff"
+      }
+    },
+    "flagrow": {
+      "discuss": ""
+    }
+  }
+}
