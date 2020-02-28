@@ -3,8 +3,10 @@
 namespace FoF\ModeratorNotes\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
+use Flarum\Api\Serializer\BasicUserSerializer;
 
-class ModeratorNotesSerializer extends AbstractSerializer {
+class ModeratorNotesSerializer extends AbstractSerializer
+{
 
   protected $type = 'moderatorNotes';
 
@@ -14,21 +16,19 @@ class ModeratorNotesSerializer extends AbstractSerializer {
    * @param object|array $model
    * @return array
    */
-  protected function getDefaultAttributes($moderatorNotes)
+  protected function getDefaultAttributes($moderatorNote)
   {
-      $attributes = [
-        'id' => $moderatorNotes->id,
-        'userId' => $moderatorNotes->user_id,
-        'note' => $moderatorNotes->note,
-        'addedByUser' => [
-          'username' => $moderatorNotes->addedByUser->username,
-          'displayName' => $moderatorNotes->addedByUser->display_name,
-          'avatarUrl' => $moderatorNotes->addedByUser->avatar_url,
-        ],
-        'createdAt' => $moderatorNotes->created_at,
-        'updatedAt' => $moderatorNotes->updated_at
-      ];
+    return [
+      'id' => $moderatorNote->id,
+      'userId' => $moderatorNote->user_id,
+      'addedByUser' => $moderatorNote->addedByUser,
+      'note' => $moderatorNote->note,
+      'createdAt' => $moderatorNote->created_at
+    ];
+  }
 
-      return $attributes;
+  protected function addedByUser($moderatorNote)
+  {
+    return $this->hasOne($moderatorNote, BasicUserSerializer::class);
   }
 }
