@@ -14,15 +14,16 @@ class Permissions
         $events->listen(Serializing::class, [$this, 'addPermission']);
     }
 
-    public function addPermission(Serializing $serializingEvent)
+    public function addPermission(Serializing $event)
     {
-        if ($serializingEvent->isSerializer(UserSerializer::class)) {
-            $serializingEvent->attributes['canViewModeratorNotes'] = $serializingEvent
+        if ($event->isSerializer(UserSerializer::class)) {
+            $event->attributes['canViewModeratorNotes'] = $event
                 ->actor
-                ->can('viewModeratorNotes', $serializingEvent->model);
-            $serializingEvent->attributes['canCreateModeratorNotes'] = $serializingEvent
+                ->can('viewModeratorNotes', $event->model);
+                
+            $event->attributes['canCreateModeratorNotes'] = $event
                 ->actor
-                ->can('createModeratorNotes', $serializingEvent->model);
+                ->can('createModeratorNotes', $event->model);
         }
     }
 }
