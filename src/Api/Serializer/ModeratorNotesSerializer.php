@@ -20,10 +20,15 @@ class ModeratorNotesSerializer extends AbstractSerializer
   {
     return [
       'id' => $moderatorNote->id,
-      'user' => $moderatorNote->user,
+      'userId' => $moderatorNote->user_id,
       'addedByUser' => $moderatorNote->addedByUser,
       'note' => $moderatorNote->note,
       'createdAt' => $moderatorNote->created_at
     ];
+  }
+
+  protected function addedByUser($moderatorNote)
+  {
+    return $this->hasOne($moderatorNote, BasicUserSerializer::class);
   }
 }
