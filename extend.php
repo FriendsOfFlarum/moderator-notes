@@ -12,8 +12,8 @@
 namespace FoF\ModeratorNotes;
 
 use Flarum\Extend;
-use FoF\ModeratorNotes\Api\Controller\UserModeratorNoteCreateController;
-use FoF\ModeratorNotes\Api\Controller\UserModeratorNotesController;
+use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
+use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
@@ -26,8 +26,8 @@ return [
     new Extend\Locales(__DIR__ . '/resources/locale'),
 
     (new Extend\Routes('api'))
-        ->get('/notes/{id}', 'moderator_notes.index', UserModeratorNotesController::class)
-        ->post('/notes', 'moderator-notes.create', UserModeratorNoteCreateController::class),
+        ->get('/notes/{id}', 'moderator_notes.index', ListModeratorNotesController::class)
+        ->post('/notes', 'moderator-notes.create', CreateModeratorNoteController::class),
 
    function (Dispatcher $events) {
         $events->subscribe(Listeners\Permissions::class);

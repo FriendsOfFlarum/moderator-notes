@@ -10,7 +10,7 @@ use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class UserModeratorNotesController extends AbstractListController
+class ListModeratorNotesController extends AbstractListController
 {
     use AssertPermissionTrait;
 
@@ -32,6 +32,6 @@ class UserModeratorNotesController extends AbstractListController
 
         $this->assertCan($actor, 'user.viewModeratorNotes');
 
-        return ModeratorNote::where('user_id', $id)->with('addedByUser')->orderBy('created_at', 'desc')->get();
+        return ModeratorNote::where('user_id', $id)->orderBy('created_at', 'desc')->get();
     }
 }

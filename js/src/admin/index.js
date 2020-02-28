@@ -8,9 +8,8 @@ app.initializers.add('fof/moderator-notes', () => {
       icon: 'fas fa-images',
       label: app.translator.trans('fof-moderator-notes.admin.permissions.viewnotes'),
       permission: 'user.viewModeratorNotes'
-    }, 1);
-  });
-  extend(PermissionGrid.prototype, 'moderateItems', items => {
+    }, 1),
+    
     items.add('moderator-notes-create', {
       icon: 'fas fa-edit',
       label: app.translator.trans('fof-moderator-notes.admin.permissions.createnotes'),
