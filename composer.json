@@ -5,7 +5,7 @@
     "flarum"
   ],
   "type": "flarum-extension",
-  "license": "0BSD",
+  "license": "MIT",
   "require": {
     "flarum/core": "^0.1.0-beta.8"
   },
@@ -13,6 +13,11 @@
     {
       "name": "Ian Morland",
       "email": "ianm@giffgaff.co.uk",
+      "role": "Developer"
+    },
+    {
+      "name": "David Sevilla Martin",
+      "email": "me+fof@datitisev.me",
       "role": "Developer"
     }
   ],
