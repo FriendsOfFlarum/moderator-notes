@@ -17,7 +17,7 @@ export default class ModeratorNotesCreate extends Modal {
     }
 
     title() {
-        return app.translator.trans('fof-moderator-notes.forum.moderatorNotes.create-heading')
+        return app.translator.trans('fof-moderator-notes.forum.moderatorNotes.create-heading');
     }
 
     content() {
@@ -42,21 +42,22 @@ export default class ModeratorNotesCreate extends Modal {
                     <div className="Form-group">
                         <div>
                             <label>
-                            {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.input_heading', {
-                                username: this.user.username()
-                            })}
-                                <textarea className="FormControl" value={this.noteContent()} oninput={m.withAttr('value', this.noteContent)} rows="6"/>
+                                {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.input_heading', {
+                                    username: this.user.username(),
+                                })}
+                                <textarea
+                                    className="FormControl"
+                                    value={this.noteContent()}
+                                    oninput={m.withAttr('value', this.noteContent)}
+                                    rows="6"
+                                />
                             </label>
                         </div>
                     </div>
                     <div className="Form-group">
-                        <Button 
-                            className="Button Button--primary Button--block" 
-                            type="submit" 
-                            loading={this.loading}>
+                        <Button className="Button Button--primary Button--block" type="submit" loading={this.loading}>
                             {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.submit_button')}
                         </Button>
-
                     </div>
                 </div>
             </div>
@@ -68,13 +69,18 @@ export default class ModeratorNotesCreate extends Modal {
 
         this.loading = true;
 
-        app.store.createRecord('notes').save({
-            userId: this.user.id(),
-            note: this.noteContent()
-        }, {errorHandler: this.onerror.bind(this)})
-        .then(() => this.success = true)
-        .catch(() => {})
-        .then(this.loaded.bind(this));
+        app.store
+            .createRecord('notes')
+            .save(
+                {
+                    userId: this.user.id(),
+                    note: this.noteContent(),
+                },
+                { errorHandler: this.onerror.bind(this) }
+            )
+            .then(() => (this.success = true))
+            .catch(() => {})
+            .then(this.loaded.bind(this));
     }
 
     onerror(error) {

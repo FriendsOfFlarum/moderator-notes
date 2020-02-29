@@ -16,14 +16,11 @@ export default class ModeratorNotes extends Component {
     }
 
     view() {
-
         let loading;
 
         if (this.loading) {
             loading = LoadingIndicator.component();
         }
-
-
 
         return (
             <div className="DiscussionList">
@@ -39,13 +36,11 @@ export default class ModeratorNotes extends Component {
                             </li>
                         );
                     })}
-                    {!this.loading
-                        && this.notes.length === 0
-                        && <label>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')}</label>}
+                    {!this.loading && this.notes.length === 0 && (
+                        <label>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')}</label>
+                    )}
                 </ul>
-                <div className="DiscussionList-loadMore">
-                    {loading}
-                </div>
+                <div className="DiscussionList-loadMore">{loading}</div>
             </div>
         );
     }
@@ -55,12 +50,13 @@ export default class ModeratorNotes extends Component {
         const items = new ItemList();
         const canCreateNote = user.canCreateModeratorNotes();
 
-        items.add('create_note',
+        items.add(
+            'create_note',
             Button.component({
                 children: app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button'),
-                className: "Button Button--primary",
+                className: 'Button Button--primary',
                 onclick: this.handleOnClickCreate.bind(this),
-                disabled: !canCreateNote
+                disabled: !canCreateNote,
             })
         );
 
@@ -85,7 +81,7 @@ export default class ModeratorNotes extends Component {
                 this.loading = false;
                 m.redraw();
             }
-        )
+        );
     }
 
     handleOnClickCreate(e) {
