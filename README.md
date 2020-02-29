@@ -1,6 +1,6 @@
 # FoF Moderator Notes
 
-![License](https://img.shields.io/badge/license-0BSD-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/moderator-notes.svg)](https://packagist.org/packages/fof/moderator-notes) ![GitHub All Releases](https://img.shields.io/github/downloads/friendsofflarum/moderator-notes/total)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/moderator-notes.svg)](https://packagist.org/packages/fof/moderator-notes) ![GitHub All Releases](https://img.shields.io/github/downloads/friendsofflarum/moderator-notes/total)
 
 A [Flarum](http://flarum.org) extension. Create private notes for your forum users
 
