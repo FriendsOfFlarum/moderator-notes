@@ -86,6 +86,11 @@ export default class ModeratorNotes extends Component {
 
     handleOnClickCreate(e) {
         e.preventDefault();
-        app.modal.show(new NoteCreate(this.props.params));
+        app.modal.show(
+            new NoteCreate({
+                callback: this.refresh.bind(this),
+                ...this.props.params,
+            })
+        );
     }
 }

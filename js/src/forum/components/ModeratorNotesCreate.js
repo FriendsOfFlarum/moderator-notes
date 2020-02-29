@@ -1,15 +1,12 @@
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
+import username from 'flarum/helpers/username';
 
 export default class ModeratorNotesCreate extends Modal {
     init() {
         super.init();
 
-        this.success = false;
-
         this.noteContent = m.prop('');
-
-        this.user = this.props.user;
     }
 
     className() {
@@ -21,21 +18,6 @@ export default class ModeratorNotesCreate extends Modal {
     }
 
     content() {
-        if (this.success) {
-            return (
-                <div className="Modal-body">
-                    <div className="Form Form--centered">
-                        <p>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.confirmation_message')}</p>
-                        <div className="Form-group">
-                            <Button className="Button Button--primary Button--block" onclick={this.hide.bind(this)}>
-                                {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.dismiss_button')}
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
         return (
             <div className="Modal-body">
                 <div className="Form Form--centered">
@@ -43,7 +25,7 @@ export default class ModeratorNotesCreate extends Modal {
                         <div>
                             <label>
                                 {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.input_heading', {
-                                    username: this.user.username(),
+                                    username: username(this.props.user),
                                 })}
                                 <textarea
                                     className="FormControl"
@@ -73,14 +55,14 @@ export default class ModeratorNotesCreate extends Modal {
             .createRecord('notes')
             .save(
                 {
-                    userId: this.user.id(),
+                    userId: this.props.user.id(),
                     note: this.noteContent(),
                 },
                 { errorHandler: this.onerror.bind(this) }
             )
-            .then(() => (this.success = true))
-            .catch(() => {})
-            .then(this.loaded.bind(this));
+            .then(this.hide.bind(this))
+            .then(this.props.callback)
+            .catch(() => {});
     }
 
     onerror(error) {
