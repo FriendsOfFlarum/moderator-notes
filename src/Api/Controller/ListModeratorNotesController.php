@@ -16,6 +16,8 @@ class ListModeratorNotesController extends AbstractListController
 
     public $serializer = ModeratorNotesSerializer::class;
 
+    public $include = ['addedByUser'];
+
     /**
      * Get the data to be serialized and assigned to the response document.
      *

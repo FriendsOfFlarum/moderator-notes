@@ -1,16 +1,17 @@
 import Component from 'flarum/Component';
+import username from 'flarum/helpers/username';
 import fullTime from 'flarum/helpers/fullTime';
 
 export default class NoteListItem extends Component {
     view() {
         const { note } = this.props;
-        const addedBy = note.addedByUser();
-        let formatedDate = fullTime(note.createdAt());
+        const addedByUser = note.addedByUser();
+        const formatedDate = fullTime(note.createdAt());
 
         return (
             <div className="DiscussionListItem">
                 <div className="DiscussionListItem-main">
-                    <h3 className="DiscussionListItem-title">{addedBy.username}</h3>
+                    <h3 className="DiscussionListItem-title">{username(addedByUser)}</h3>
                     {formatedDate}
                     <ul className="DiscussionListItem-info">
                         <li className="item-excerpt">
