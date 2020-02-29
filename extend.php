@@ -23,13 +23,13 @@ return [
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/resources/less/admin.less'),
-    new Extend\Locales(__DIR__ . '/resources/locale'),
+    new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Routes('api'))
         ->get('/notes/{id}', 'moderator_notes.index', ListModeratorNotesController::class)
         ->post('/notes', 'moderator-notes.create', CreateModeratorNoteController::class),
 
-   function (Dispatcher $events) {
+    function (Dispatcher $events) {
         $events->subscribe(Listeners\Permissions::class);
-   }
+    },
 ];

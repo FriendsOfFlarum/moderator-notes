@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/moderator-notes.
+ *
+ * Copyright (c) 2020 FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\ModeratorNotes\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
@@ -39,7 +48,7 @@ class CreateModeratorNoteController extends AbstractCreateController
 
         $requestBody = $request->getParsedBody();
         $requestData = $requestBody['data']['attributes'];
-        
+
         return $this->bus->dispatch(
             new CreateModeratorNote($actor, $requestData['userId'], $requestData['note'])
         );

@@ -1,8 +1,16 @@
 <?php
 
+/*
+ * This file is part of fof/moderator-notes.
+ *
+ * Copyright (c) 2020 FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
-
 
 return [
     'up' => function (Builder $schema) {
@@ -11,7 +19,7 @@ return [
             $table->dropForeign(['added_by_user_id']);
         });
 
-        $schema->table('users_notes', function(Blueprint $table) {
+        $schema->table('users_notes', function (Blueprint $table) {
             $table->integer('added_by_user_id')->unsigned()->nullable()->change();
         });
 
@@ -23,5 +31,5 @@ return [
 
     'down' => function (Builder $schema) {
         // changes should be kept
-    }
+    },
 ];

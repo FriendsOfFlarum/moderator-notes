@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/moderator-notes.
+ *
+ * Copyright (c) 2020 FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\ModeratorNotes\Command;
 
 use Flarum\Foundation\ValidationException;
@@ -10,6 +19,7 @@ class CreateModeratorNoteHandler
 {
     /**
      * @param CreateNote $command
+     *
      * @return ModeratorNote
      */
     public function handle(CreateModeratorNote $command)
@@ -24,7 +34,7 @@ class CreateModeratorNoteHandler
         $note->added_by_user_id = $actor->id;
         $note->created_at = Carbon::now();
 
-        if ($note->note === ''){
+        if ($note->note === '') {
             throw new ValidationException(['message' => $this->translator->trans('fof-moderator-notes.forum.no_content_given')]);
         }
 
