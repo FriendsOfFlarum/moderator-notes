@@ -33,7 +33,7 @@ class Permissions
             $event->attributes['canCreateModeratorNotes'] = $event
                 ->actor
                 ->can('createModeratorNotes', $event->model);
-                
+
             if ($event->actor->can('viewModeratorNotes')) {
                 $event->attributes['moderatorNoteCount'] = ModeratorNote::where('user_id', $event->model->id)->count();
             }
