@@ -13,6 +13,7 @@ namespace FoF\ModeratorNotes\Listeners;
 
 use Flarum\Api\Event\Serializing;
 use Flarum\Api\Serializer\UserSerializer;
+use FoF\ModeratorNotes\Model\ModeratorNote;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class Permissions
@@ -32,6 +33,10 @@ class Permissions
             $event->attributes['canCreateModeratorNotes'] = $event
                 ->actor
                 ->can('createModeratorNotes', $event->model);
+                
+            if ($event->actor->can('viewModeratorNotes')) {
+                $event->attributes['moderatorNoteCount'] = ModeratorNote::where('user_id', $event->model->id)->count();
+            }
         }
     }
 }
