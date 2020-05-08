@@ -39,5 +39,12 @@ class Impersonate
                 app('translator')->trans('fof-moderator-notes.api.auto-note')
             )
         );
+        $this->bus->dispatch(
+            new CreateModeratorNote(
+                $event->actor,
+                $event->actor->id,
+                app('translator')->trans('fof-moderator-notes.api.auto-note-actor', [ 'username' => $event->user->username, 'userId' => $event->user->id ])
+            )
+        );
     }
 }

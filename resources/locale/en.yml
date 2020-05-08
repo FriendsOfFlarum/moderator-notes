@@ -18,4 +18,5 @@ fof-moderator-notes:
       notes: Moderator Notes
 
   api:
-    auto-note: FoF Impersonate was used to switch to this user
+    auto-note: I used FoF Impersonate to switch to this user
+    auto-note-actor: Used FoF Impersonate to impersonate 'username'
