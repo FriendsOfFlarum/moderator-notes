@@ -19,12 +19,12 @@ use Illuminate\Contracts\Events\Dispatcher;
 class Impersonate
 {
     protected $bus;
-    
+
     public function __construct(Bus $bus)
     {
         $this->bus = $bus;
     }
-    
+
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Impersonated::class, [$this, 'addNote']);
