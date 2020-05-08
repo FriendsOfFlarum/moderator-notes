@@ -16,3 +16,6 @@ fof-moderator-notes:
 
     user:
       notes: Moderator Notes
+
+  api:
+    auto-note: FoF Impersonate was used to switch to this user

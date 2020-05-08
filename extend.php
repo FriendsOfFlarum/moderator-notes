@@ -31,5 +31,6 @@ return [
 
     function (Dispatcher $events) {
         $events->subscribe(Listeners\Permissions::class);
+        $events->subscribe(Listeners\Impersonate::class);
     },
 ];
