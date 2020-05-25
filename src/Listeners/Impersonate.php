@@ -32,23 +32,37 @@ class Impersonate
 
     public function addNote(Impersonated $event): void
     {
+        // Leave moderator note on impersonate subject
         $this->bus->dispatch(
             new CreateModeratorNote(
                 $event->actor,
                 $event->user->id,
-                (property_exists($event, 'switchReason') && $event->switchReason !== '' ? $event->switchReason : app('translator')->trans('fof-moderator-notes.api.auto-note'))
+                app('translator')->trans(
+                    'fof-moderator-notes.api.auto_note',
+                    [
+                        'reason' => (property_exists($event, 'switchReason') &&
+                            $event->switchReason !== ''
+                            ? $event->switchReason
+                            : app('translator')->trans('fof-moderator-notes.api.no_reason_provided'))
+                    ]
+                )
             )
         );
+
+        // Leave moderator note on impersonate actor
         $this->bus->dispatch(
             new CreateModeratorNote(
                 $event->actor,
                 $event->actor->id,
                 app('translator')->trans(
-                    'fof-moderator-notes.api.auto-note-actor',
+                    'fof-moderator-notes.api.auto_note_actor',
                     [
                         'username' => $event->user->username,
                         'userId'   => $event->user->id,
-                        'reason'   => (property_exists($event, 'switchReason') && $event->switchReason !== '' ? $event->switchReason : app('translator')->trans('fof-moderator-notes.api.no_reason_provided')),
+                        'reason'   => (property_exists($event, 'switchReason') &&
+                            $event->switchReason !== ''
+                            ? $event->switchReason
+                            : app('translator')->trans('fof-moderator-notes.api.no_reason_provided')),
                     ]
                 )
             )
