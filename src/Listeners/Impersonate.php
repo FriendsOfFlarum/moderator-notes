@@ -43,10 +43,12 @@ class Impersonate
             new CreateModeratorNote(
                 $event->actor,
                 $event->actor->id,
-                app('translator')->trans('fof-moderator-notes.api.auto-note-actor', [
-                    'username' => $event->user->username,
-                    'userId' => $event->user->id,
-                    'reason' => (property_exists($event, 'switchReason') ? $event->switchReason : app('translator')->trans('fof-moderator-notes.api.no_reason_provided'))
+                app('translator')->trans(
+                    'fof-moderator-notes.api.auto-note-actor',
+                    [
+                        'username' => $event->user->username,
+                        'userId'   => $event->user->id,
+                        'reason'   => (property_exists($event, 'switchReason') ? $event->switchReason : app('translator')->trans('fof-moderator-notes.api.no_reason_provided')),
                     ]
                 )
             )
