@@ -43,7 +43,7 @@ class Impersonate
                         'reason' => (property_exists($event, 'switchReason') &&
                             $event->switchReason !== ''
                             ? $event->switchReason
-                            : app('translator')->trans('fof-moderator-notes.api.no_reason_provided'))
+                            : app('translator')->trans('fof-moderator-notes.api.no_reason_provided')),
                     ]
                 )
             )
