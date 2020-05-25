@@ -5,6 +5,7 @@ fof-moderator-notes:
       viewnotes: View moderator notes
   forum:
     moderatorNotes:
+      created_text: "{username} created this note on {date}"
       add_button: New note
       confirmation_message: Your note has been saved. You may need to refresh the page to see it.
       create-heading: Create a new moderator note

@@ -23,12 +23,12 @@ export default class ModeratorNotes extends Component {
         }
 
         return (
-            <div className="DiscussionList">
-                <h1 className="DiscussionList-notes">{app.translator.trans('fof-moderator-notes.forum.user.notes')}</h1>
+            <div className="ModeratorNotesList">
+                <h1 className="ModeratorNotesList-notes">{app.translator.trans('fof-moderator-notes.forum.user.notes')}</h1>
                 <div class="ModeratorNotes-toolbar">
                     <ul className="ModeratorNotes-toolbar-action">{listItems(this.actionItems().toArray())}</ul>
                 </div>
-                <ul className="DiscussionList-discussions">
+                <ul className="ModeratorNotesList-discussions">
                     {this.notes.map(note => {
                         return (
                             <li key={note.id()} data-id={note.id()}>
@@ -40,7 +40,7 @@ export default class ModeratorNotes extends Component {
                         <label>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')}</label>
                     )}
                 </ul>
-                <div className="DiscussionList-loadMore">{loading}</div>
+                <div className="ModeratorNotesList-loadMore">{loading}</div>
             </div>
         );
     }
