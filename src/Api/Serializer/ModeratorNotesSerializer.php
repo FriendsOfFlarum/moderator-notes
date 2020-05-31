@@ -46,6 +46,6 @@ class ModeratorNotesSerializer extends AbstractSerializer
     {
         $formatter = ModeratorNote::getFormatter();
 
-        return $formatter->render($formatter->parse($note), new Post());
+        return $formatter->render($note, new Post());
     }
 }
