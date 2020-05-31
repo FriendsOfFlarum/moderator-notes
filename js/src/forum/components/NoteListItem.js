@@ -16,7 +16,9 @@ export default class NoteListItem extends Component {
                     <a
                         href={addedByUser ? app.route.user(addedByUser) : '#'}
                         className="ModeratorNotesListItem-author"
-                        title={extractText(app.translator.trans('fof-moderator-notes.forum.moderatorNotes.created_text', { user: addedByUser, date: formatedDate }))}
+                        title={extractText(
+                            app.translator.trans('fof-moderator-notes.forum.moderatorNotes.created_text', { user: addedByUser, date: formatedDate })
+                        )}
                         config={function(element) {
                             $(element).tooltip({ placement: 'right' });
                             m.route.apply(this, arguments);
@@ -28,8 +30,8 @@ export default class NoteListItem extends Component {
                     <h3 className="ModeratorNotesListItem-title">{username(addedByUser)}</h3>
                     {formatedDate}
                     <ul className="ModeratorNotesListItem-info">
-                        <li className="item-excerpt">
-                            <span>{note.note()}</span>
+                        <li className="item-content">
+                            <span>{m.trust(note.note())}</span>
                         </li>
                     </ul>
                 </div>

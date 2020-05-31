@@ -13,10 +13,18 @@ namespace FoF\ModeratorNotes\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
+use Flarum\Formatter\Formatter;
 
 class ModeratorNotesSerializer extends AbstractSerializer
 {
     protected $type = 'moderatorNotes';
+
+    protected $formatter;
+
+    public function __construct(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+    }
 
     /**
      * Get the default set of serialized attributes for a model.
@@ -30,7 +38,7 @@ class ModeratorNotesSerializer extends AbstractSerializer
         return [
             'id'        => $moderatorNote->id,
             'userId'    => $moderatorNote->user_id,
-            'note'      => $moderatorNote->note,
+            'note'      => $this->format($moderatorNote->note),
             'createdAt' => $this->formatDate($moderatorNote->created_at),
         ];
     }
@@ -38,5 +46,9 @@ class ModeratorNotesSerializer extends AbstractSerializer
     protected function addedByUser($moderatorNote)
     {
         return $this->hasOne($moderatorNote, BasicUserSerializer::class);
+    }
+
+    protected function format($note) {
+        return $this->formatter->render($this->formatter->parse($note));
     }
 }
