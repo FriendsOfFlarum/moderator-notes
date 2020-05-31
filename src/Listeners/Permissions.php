@@ -37,6 +37,10 @@ class Permissions
             if ($event->actor->can('viewModeratorNotes')) {
                 $event->attributes['moderatorNoteCount'] = ModeratorNote::where('user_id', $event->model->id)->count();
             }
+
+            if ($event->actor->can('deleteModeratorNotes')) {
+                $event->attributes['canDeleteModeratorNotes'] = $event->actor->can('deleteModeratorNotes');
+            }
         }
     }
 }

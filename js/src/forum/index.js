@@ -9,6 +9,7 @@ app.initializers.add('fof/moderator-notes', app => {
     app.store.models.notes = ModeratorNote;
     User.prototype.canViewModeratorNotes = Model.attribute('canViewModeratorNotes');
     User.prototype.canCreateModeratorNotes = Model.attribute('canCreateModeratorNotes');
+    User.prototype.canDeleteModeratorNotes = Model.attribute('canDeleteModeratorNotes');
     addModeratorNotesPage();
 });
 

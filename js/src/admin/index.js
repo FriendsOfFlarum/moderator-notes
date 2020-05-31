@@ -21,6 +21,12 @@ app.initializers.add('fof/moderator-notes', () => {
                     permission: 'user.createModeratorNotes',
                 },
                 1
-            );
+            ),
+            items.add('moderator-notes-delete', {
+                icon: 'far fa-trash-alt',
+                label: app.translator.trans('fof-moderator-notes.admin.permissions.deletenotes'),
+                permission: 'user.deleteModeratorNotes',
+            }),
+            1;
     });
 });

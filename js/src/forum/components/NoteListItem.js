@@ -3,15 +3,27 @@ import username from 'flarum/helpers/username';
 import fullTime from 'flarum/helpers/fullTime';
 import extractText from 'flarum/utils/extractText';
 import avatar from 'flarum/helpers/avatar';
+import Dropdown from 'flarum/components/Dropdown';
+import ItemList from 'flarum/utils/ItemList';
+import Button from 'flarum/components/Button';
 
 export default class NoteListItem extends Component {
     view() {
         const { note } = this.props;
         const addedByUser = note.addedByUser();
         const formatedDate = fullTime(note.createdAt());
+        const actions = this.noteActions(note);
 
         return (
             <div className="ModeratorNotesListItem">
+                {actions.length
+                    ? Dropdown.component({
+                          icon: 'fas fa-ellipsis-v',
+                          children: actions,
+                          className: 'ModeratorNotesListItem-controls',
+                          buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
+                      })
+                    : ''}
                 <div className="ModeratorNotesListItem-main">
                     <div className="ModeratorNotesListItem-title">
                         <a
@@ -43,5 +55,34 @@ export default class NoteListItem extends Component {
                 </div>
             </div>
         );
+    }
+
+    noteActions(context) {
+        const actions = new ItemList();
+
+        if (app.session.user.canDeleteModeratorNotes()) {
+            actions.add(
+                'delete',
+                Button.component({
+                    icon: 'far fa-trash-alt',
+                    children: app.translator.trans('fof-moderator-notes.forum.moderatorNotes.delete'),
+                    onclick: () => this.deleteNote(context),
+                })
+            );
+        }
+
+        return actions.toArray();
+    }
+
+    deleteNote(note) {
+        if (confirm(app.translator.trans('fof-moderator-notes.forum.moderatorNotes.confirm')) === true) {
+            return note
+                .delete()
+                .then(() => {})
+                .catch(() => {})
+                .then(() => {
+                    location.reload();
+                });
+        }
     }
 }

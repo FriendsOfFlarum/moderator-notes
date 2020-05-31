@@ -13,6 +13,7 @@ namespace FoF\ModeratorNotes;
 
 use Flarum\Extend;
 use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
+use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -27,7 +28,8 @@ return [
 
     (new Extend\Routes('api'))
         ->get('/notes/{id}', 'moderator_notes.index', ListModeratorNotesController::class)
-        ->post('/notes', 'moderator-notes.create', CreateModeratorNoteController::class),
+        ->post('/notes', 'moderator-notes.create', CreateModeratorNoteController::class)
+        ->delete('/moderatorNotes/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
     function (Dispatcher $events) {
         $events->subscribe(Listeners\Permissions::class);
