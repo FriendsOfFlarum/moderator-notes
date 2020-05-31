@@ -48,7 +48,8 @@ class ModeratorNotesSerializer extends AbstractSerializer
         return $this->hasOne($moderatorNote, BasicUserSerializer::class);
     }
 
-    protected function format($note) {
+    protected function format($note)
+    {
         return $this->formatter->render($this->formatter->parse($note));
     }
 }
