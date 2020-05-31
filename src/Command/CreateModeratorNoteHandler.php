@@ -12,11 +12,20 @@
 namespace FoF\ModeratorNotes\Command;
 
 use Flarum\Foundation\ValidationException;
+use FoF\ModeratorNotes\Events\ModeratorNoteCreated;
 use FoF\ModeratorNotes\Model\ModeratorNote;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Carbon;
 
 class CreateModeratorNoteHandler
 {
+    protected $bus;
+
+    public function __construct(Dispatcher $bus)
+    {
+        $this->bus = $bus;
+    }
+
     /**
      * @param CreateNote $command
      *
@@ -39,6 +48,8 @@ class CreateModeratorNoteHandler
         }
 
         $note->save();
+
+        $this->bus->dispatch(new ModeratorNoteCreated($actor, $note));
 
         return $note;
     }

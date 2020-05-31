@@ -12,11 +12,20 @@
 namespace FoF\ModeratorNotes\Command;
 
 use Flarum\User\AssertPermissionTrait;
+use FoF\ModeratorNotes\Events\ModeratorNoteDeleted;
 use FoF\ModeratorNotes\Model\ModeratorNote;
+use Illuminate\Events\Dispatcher;
 
 class DeleteModeratorNoteHandler
 {
     use AssertPermissionTrait;
+
+    protected $bus;
+
+    public function __construct(Dispatcher $bus)
+    {
+        $this->bus = $bus;
+    }
 
     /**
      * @param DeleteModeratorNote $command
@@ -33,6 +42,8 @@ class DeleteModeratorNoteHandler
         $note = ModeratorNote::findOrFail($command->noteId);
 
         $note->delete();
+
+        $this->bus->dispatch(new ModeratorNoteDeleted($actor, $note));
 
         return $note;
     }
