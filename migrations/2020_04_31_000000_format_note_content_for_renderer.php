@@ -16,10 +16,12 @@ return [
     'up' => function (Builder $schema) {
         $formatter = ModeratorNote::getFormatter();
 
-        foreach (ModeratorNote::get() as $moderatorNote) {
-            $moderatorNote->note = $formatter->parse($moderatorNote->note);
-            $moderatorNote->save();
-        }
+        ModeratorNote::chunkById(1000, function ($moderatorNote) use ($formatter) {
+            foreach ($moderatorNote as $note) {
+                $note->note = $formatter->parse($note->note);
+                $note->save;
+            }
+        });
     },
 
     'down' => function (Builder $schema) {
