@@ -13,19 +13,12 @@ namespace FoF\ModeratorNotes\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
-use Flarum\Formatter\Formatter;
 use Flarum\Post\Post;
+use FoF\ModeratorNotes\Model\ModeratorNote;
 
 class ModeratorNotesSerializer extends AbstractSerializer
 {
     protected $type = 'moderatorNotes';
-
-    protected $formatter;
-
-    public function __construct(Formatter $formatter)
-    {
-        $this->formatter = $formatter;
-    }
 
     /**
      * Get the default set of serialized attributes for a model.
@@ -51,6 +44,7 @@ class ModeratorNotesSerializer extends AbstractSerializer
 
     protected function format($note)
     {
-        return $this->formatter->render($this->formatter->parse($note), new Post());
+        $formatter = ModeratorNote::getFormatter();
+        return $formatter->render($formatter->parse($note), new Post());
     }
 }

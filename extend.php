@@ -12,9 +12,11 @@
 namespace FoF\ModeratorNotes;
 
 use Flarum\Extend;
+use Flarum\Foundation\Application;
 use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
+use FoF\ModeratorNotes\Model\ModeratorNote;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
@@ -34,5 +36,9 @@ return [
     function (Dispatcher $events) {
         $events->subscribe(Listeners\Permissions::class);
         $events->subscribe(Listeners\Impersonate::class);
+    },
+
+    function (Application $app) {
+        ModeratorNote::setFormatter($app['flarum.formatter']);
     },
 ];
