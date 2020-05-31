@@ -34,12 +34,12 @@ class Permissions
                 ->actor
                 ->can('createModeratorNotes', $event->model);
 
-            if ($event->actor->can('viewModeratorNotes')) {
+            if ($event->actor->can('viewModeratorNotes', $event->model)) {
                 $event->attributes['moderatorNoteCount'] = ModeratorNote::where('user_id', $event->model->id)->count();
             }
 
-            if ($event->actor->can('deleteModeratorNotes')) {
-                $event->attributes['canDeleteModeratorNotes'] = $event->actor->can('deleteModeratorNotes');
+            if ($event->actor->hasPermission('user.deleteModeratorNotes')) {
+                $event->attributes['canDeleteModeratorNotes'] = $event->actor->hasPermission('user.deleteModeratorNotes');
             }
         }
     }
