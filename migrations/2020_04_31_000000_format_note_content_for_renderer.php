@@ -15,7 +15,7 @@ use Illuminate\Database\Schema\Builder;
 return [
     'up' => function (Builder $schema) {
         $formatter = ModeratorNote::getFormatter();
-        
+
         foreach (ModeratorNote::get() as $moderatorNote) {
             $moderatorNote->note = $formatter->parse($moderatorNote->note);
             $moderatorNote->save();
