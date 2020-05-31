@@ -14,6 +14,7 @@ namespace FoF\ModeratorNotes\Api\Serializer;
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Formatter\Formatter;
+use Flarum\Post\Post;
 
 class ModeratorNotesSerializer extends AbstractSerializer
 {
@@ -50,6 +51,6 @@ class ModeratorNotesSerializer extends AbstractSerializer
 
     protected function format($note)
     {
-        return $this->formatter->render($this->formatter->parse($note));
+        return $this->formatter->render($this->formatter->parse($note), new Post());
     }
 }
