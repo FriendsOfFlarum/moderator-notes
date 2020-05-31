@@ -21,6 +21,6 @@ fof-moderator-notes:
       notes: Moderator Notes
 
   api:
-    auto_note: "I switched to this user: reason"
-    auto_note_actor: "Switched to 'username': reason"
-    no_reason_provided: No reason provided
+    auto_note: "_I switched to this user:_ reason"
+    auto_note_actor: "_Switched to_ @username: reason"
+    no_reason_provided: _No reason provided_
