@@ -19,7 +19,7 @@ return [
         ModeratorNote::chunkById(1000, function ($moderatorNote) use ($formatter) {
             foreach ($moderatorNote as $note) {
                 $note->note = $formatter->parse($note->note);
-                $note->save;
+                $note->save();
             }
         });
     },
