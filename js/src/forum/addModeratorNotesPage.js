@@ -15,14 +15,16 @@ export default function() {
         if (this.user.canViewModeratorNotes()) {
             items.add(
                 'notes',
-                LinkButton.component({
-                    href: app.route('user.notes', { username: this.user.username() }),
-                    icon: 'fas fa-sticky-note',
-                }, 
-                [
-                    app.translator.trans('fof-moderator-notes.forum.user.notes'),
-                    this.user.moderatorNoteCount() > 0 ? <span className="Button-badge">{this.user.moderatorNoteCount()}</span> : '',
-                ]),
+                LinkButton.component(
+                    {
+                        href: app.route('user.notes', { username: this.user.username() }),
+                        icon: 'fas fa-sticky-note',
+                    },
+                    [
+                        app.translator.trans('fof-moderator-notes.forum.user.notes'),
+                        this.user.moderatorNoteCount() > 0 ? <span className="Button-badge">{this.user.moderatorNoteCount()}</span> : '',
+                    ]
+                ),
                 10
             );
         }

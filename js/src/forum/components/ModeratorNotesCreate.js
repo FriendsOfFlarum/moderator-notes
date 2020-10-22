@@ -29,12 +29,7 @@ export default class ModeratorNotesCreate extends Modal {
                                 {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.input_heading', {
                                     username: username(this.attrs.user),
                                 })}
-                                <textarea
-                                    className="FormControl"
-                                    value={this.noteContent()}
-                                    oninput={withAttr('value', this.noteContent)}
-                                    rows="6"
-                                />
+                                <textarea className="FormControl" value={this.noteContent()} oninput={withAttr('value', this.noteContent)} rows="6" />
                             </label>
                         </div>
                     </div>

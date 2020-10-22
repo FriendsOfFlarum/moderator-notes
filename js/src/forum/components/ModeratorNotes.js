@@ -52,12 +52,14 @@ export default class ModeratorNotes extends Component {
 
         items.add(
             'create_note',
-            Button.component({
-                className: 'Button Button--primary',
-                onclick: this.handleOnClickCreate.bind(this),
-                disabled: !canCreateNote,
-            },
-            app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button'))
+            Button.component(
+                {
+                    className: 'Button Button--primary',
+                    onclick: this.handleOnClickCreate.bind(this),
+                    disabled: !canCreateNote,
+                },
+                app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button')
+            )
         );
 
         return items;
@@ -86,11 +88,9 @@ export default class ModeratorNotes extends Component {
 
     handleOnClickCreate(e) {
         e.preventDefault();
-        app.modal.show(
-            NoteCreate, {
-                callback: this.refresh.bind(this),
-                ...this.attrs.params,
-            })
-        ;
+        app.modal.show(NoteCreate, {
+            callback: this.refresh.bind(this),
+            ...this.attrs.params,
+        });
     }
 }

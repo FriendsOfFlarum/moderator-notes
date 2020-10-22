@@ -17,11 +17,14 @@ export default class NoteListItem extends Component {
         return (
             <div className="ModeratorNotesListItem">
                 {actions.length
-                    ? Dropdown.component({
-                          icon: 'fas fa-ellipsis-v',
-                          className: 'ModeratorNotesListItem-controls',
-                          buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
-                      }, actions)
+                    ? Dropdown.component(
+                          {
+                              icon: 'fas fa-ellipsis-v',
+                              className: 'ModeratorNotesListItem-controls',
+                              buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
+                          },
+                          actions
+                      )
                     : ''}
                 <div className="ModeratorNotesListItem-main">
                     <div className="ModeratorNotesListItem-title">
@@ -62,10 +65,13 @@ export default class NoteListItem extends Component {
         if (app.session.user.canDeleteModeratorNotes()) {
             actions.add(
                 'delete',
-                Button.component({
-                    icon: 'far fa-trash-alt',
-                    onclick: () => this.deleteNote(context),
-                }, app.translator.trans('fof-moderator-notes.forum.moderatorNotes.delete'))
+                Button.component(
+                    {
+                        icon: 'far fa-trash-alt',
+                        onclick: () => this.deleteNote(context),
+                    },
+                    app.translator.trans('fof-moderator-notes.forum.moderatorNotes.delete')
+                )
             );
         }
 
