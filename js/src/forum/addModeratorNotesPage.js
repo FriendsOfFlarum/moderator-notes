@@ -9,7 +9,7 @@ export default function() {
     User.prototype.canViewModeratorNotes = Model.attribute('canViewModeratorNotes');
     User.prototype.moderatorNoteCount = Model.attribute('moderatorNoteCount');
 
-    app.routes['user.notes'] = { path: '/u/:username/notes', component: ModeratorNotesPage.component() };
+    app.routes['user.notes'] = { path: '/u/:username/notes', component: ModeratorNotesPage };
 
     extend(UserPage.prototype, 'navItems', function(items) {
         if (this.user.canViewModeratorNotes()) {
@@ -17,12 +17,12 @@ export default function() {
                 'notes',
                 LinkButton.component({
                     href: app.route('user.notes', { username: this.user.username() }),
-                    children: [
-                        app.translator.trans('fof-moderator-notes.forum.user.notes'),
-                        this.user.moderatorNoteCount() > 0 ? <span className="Button-badge">{this.user.moderatorNoteCount()}</span> : '',
-                    ],
                     icon: 'fas fa-sticky-note',
-                }),
+                }, 
+                [
+                    app.translator.trans('fof-moderator-notes.forum.user.notes'),
+                    this.user.moderatorNoteCount() > 0 ? <span className="Button-badge">{this.user.moderatorNoteCount()}</span> : '',
+                ]),
                 10
             );
         }

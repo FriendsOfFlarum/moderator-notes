@@ -8,8 +8,8 @@ import listItems from 'flarum/helpers/listItems';
 import ItemList from 'flarum/utils/ItemList';
 
 export default class ModeratorNotes extends Component {
-    init() {
-        super.init();
+    oninit(vdom) {
+        super.oninit(vdom);
         this.loading = true;
         this.notes = [];
         this.refresh();
@@ -46,18 +46,18 @@ export default class ModeratorNotes extends Component {
     }
 
     actionItems() {
-        const { user } = this.props.params;
+        const { user } = this.attrs.params;
         const items = new ItemList();
         const canCreateNote = user.canCreateModeratorNotes();
 
         items.add(
             'create_note',
             Button.component({
-                children: app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button'),
                 className: 'Button Button--primary',
                 onclick: this.handleOnClickCreate.bind(this),
                 disabled: !canCreateNote,
-            })
+            },
+            app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button'))
         );
 
         return items;
@@ -66,20 +66,20 @@ export default class ModeratorNotes extends Component {
     parseResults(results) {
         [].push.apply(this.notes, results);
         this.loading = false;
-        m.lazyRedraw();
+        m.redraw();
 
         return results;
     }
 
     refresh() {
-        return app.store.find('notes', this.props.params.user.id()).then(
+        return app.store.find('notes', this.attrs.params.user.id()).then(
             results => {
                 this.notes = [];
                 this.parseResults(results);
             },
             () => {
                 this.loading = false;
-                m.redraw();
+                m.redraw.sync();
             }
         );
     }
@@ -87,10 +87,10 @@ export default class ModeratorNotes extends Component {
     handleOnClickCreate(e) {
         e.preventDefault();
         app.modal.show(
-            new NoteCreate({
+            NoteCreate, {
                 callback: this.refresh.bind(this),
-                ...this.props.params,
+                ...this.attrs.params,
             })
-        );
+        ;
     }
 }

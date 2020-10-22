@@ -9,7 +9,7 @@ import Button from 'flarum/components/Button';
 
 export default class NoteListItem extends Component {
     view() {
-        const { note } = this.props;
+        const { note } = this.attrs;
         const addedByUser = note.addedByUser();
         const formatedDate = fullTime(note.createdAt());
         const actions = this.noteActions(note);
@@ -19,10 +19,9 @@ export default class NoteListItem extends Component {
                 {actions.length
                     ? Dropdown.component({
                           icon: 'fas fa-ellipsis-v',
-                          children: actions,
                           className: 'ModeratorNotesListItem-controls',
                           buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
-                      })
+                      }, actions)
                     : ''}
                 <div className="ModeratorNotesListItem-main">
                     <div className="ModeratorNotesListItem-title">
@@ -65,9 +64,8 @@ export default class NoteListItem extends Component {
                 'delete',
                 Button.component({
                     icon: 'far fa-trash-alt',
-                    children: app.translator.trans('fof-moderator-notes.forum.moderatorNotes.delete'),
                     onclick: () => this.deleteNote(context),
-                })
+                }, app.translator.trans('fof-moderator-notes.forum.moderatorNotes.delete'))
             );
         }
 
