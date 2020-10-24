@@ -12,7 +12,6 @@
 namespace FoF\ModeratorNotes\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
-use Flarum\User\AssertPermissionTrait;
 use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
 use FoF\ModeratorNotes\Command\CreateModeratorNote;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -21,8 +20,6 @@ use Tobscure\JsonApi\Document;
 
 class CreateModeratorNoteController extends AbstractCreateController
 {
-    use AssertPermissionTrait;
-
     public $serializer = ModeratorNotesSerializer::class;
 
     /**
@@ -43,8 +40,11 @@ class CreateModeratorNoteController extends AbstractCreateController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        /**
+         * @var \Flarum\User\User $actor
+         */
         $actor = $request->getAttribute('actor');
-        $this->assertCan($actor, 'user.createModeratorNotes');
+        $actor->hasPermission('user.createModeratorNotes');
 
         $requestBody = $request->getParsedBody();
         $requestData = $requestBody['data']['attributes'];

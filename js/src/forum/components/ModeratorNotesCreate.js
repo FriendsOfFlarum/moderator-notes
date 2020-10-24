@@ -1,12 +1,14 @@
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
 import username from 'flarum/helpers/username';
+import stream from 'flarum/utils/Stream';
+import withAttr from 'flarum/utils/withAttr';
 
 export default class ModeratorNotesCreate extends Modal {
-    init() {
-        super.init();
+    oninit(vdom) {
+        super.oninit(vdom);
 
-        this.noteContent = m.prop('');
+        this.noteContent = stream('');
     }
 
     className() {
@@ -25,14 +27,9 @@ export default class ModeratorNotesCreate extends Modal {
                         <div>
                             <label>
                                 {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.input_heading', {
-                                    username: username(this.props.user),
+                                    username: username(this.attrs.user),
                                 })}
-                                <textarea
-                                    className="FormControl"
-                                    value={this.noteContent()}
-                                    oninput={m.withAttr('value', this.noteContent)}
-                                    rows="6"
-                                />
+                                <textarea className="FormControl" value={this.noteContent()} oninput={withAttr('value', this.noteContent)} rows="6" />
                             </label>
                         </div>
                     </div>
@@ -55,19 +52,19 @@ export default class ModeratorNotesCreate extends Modal {
             .createRecord('notes')
             .save(
                 {
-                    userId: this.props.user.id(),
+                    userId: this.attrs.user.id(),
                     note: this.noteContent(),
                 },
                 { errorHandler: this.onerror.bind(this) }
             )
             .then(this.hide.bind(this))
-            .then(this.props.callback)
+            .then(this.attrs.callback)
             .catch(() => {});
     }
 
     onerror(error) {
         if (error.status === 422) {
-            error.alert.props.children = app.translator.trans('fof-moderator-notes.forum.moderatorNotes.no_content_given');
+            error.alert.attrs.children = app.translator.trans('fof-moderator-notes.forum.moderatorNotes.no_content_given');
         }
 
         super.onerror(error);

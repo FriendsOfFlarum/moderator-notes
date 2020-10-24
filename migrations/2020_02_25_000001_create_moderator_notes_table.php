@@ -18,7 +18,7 @@ return [
             return;
         }
 
-        $schema->create('users_notes', function (Blueprint $table) use ($schema) {
+        $schema->create('users_notes', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->integer('user_id')->unsigned();

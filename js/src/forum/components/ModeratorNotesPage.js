@@ -2,8 +2,8 @@ import UserPage from 'flarum/components/UserPage';
 import ModeratorNotes from './ModeratorNotes';
 
 export default class ModeratorNotesPage extends UserPage {
-    init() {
-        super.init();
+    oninit(vdom) {
+        super.oninit(vdom);
         this.loadUser(m.route.param('username'));
     }
 
