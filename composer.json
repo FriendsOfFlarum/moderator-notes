@@ -7,7 +7,7 @@
   "type": "flarum-extension",
   "license": "MIT",
   "require": {
-    "flarum/core": ">=0.1.0-beta.14 <0.1.0-beta.15"
+    "flarum/core": ">=0.1.0-beta.15 <0.1.0-beta.16"
   },
   "authors": [
     {
@@ -29,6 +29,12 @@
   "extra": {
     "flarum-extension": {
       "title": "FoF Moderator Notes",
+      "category": "moderation",
+      "info": {
+          "donate": "https://opencollective.com/fof/donate",
+          "website": "https://friendsofflarum.org/",
+          "support": "https://discuss.flarum.org/d/22925"
+      },
       "icon": {
         "name": "fas fa-sticky-note",
         "backgroundColor": "#e74c3c",
