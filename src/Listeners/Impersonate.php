@@ -14,36 +14,40 @@ namespace FoF\ModeratorNotes\Listeners;
 use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Command\CreateModeratorNote;
 use Illuminate\Contracts\Bus\Dispatcher as Bus;
-use Illuminate\Contracts\Events\Dispatcher;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Impersonate
 {
+    /**
+     * @var Bus
+     */
     protected $bus;
 
-    public function __construct(Bus $bus)
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+    public function __construct(Bus $bus, TranslatorInterface $translator)
     {
         $this->bus = $bus;
+        $this->translator = $translator;
     }
 
-    public function subscribe(Dispatcher $events)
-    {
-        $events->listen(Impersonated::class, [$this, 'addNote']);
-    }
-
-    public function addNote(Impersonated $event): void
+    public function handle(Impersonated $event): void
     {
         // Leave moderator note on impersonate subject
         $this->bus->dispatch(
             new CreateModeratorNote(
                 $event->actor,
                 $event->user->id,
-                app('translator')->trans(
+                $this->translator->trans(
                     'fof-moderator-notes.api.auto_note',
                     [
                         'reason' => (property_exists($event, 'switchReason') &&
                             $event->switchReason !== ''
                             ? $event->switchReason
-                            : app('translator')->trans('fof-moderator-notes.api.no_reason_provided')),
+                            : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
                     ]
                 )
             )
@@ -54,7 +58,7 @@ class Impersonate
             new CreateModeratorNote(
                 $event->actor,
                 $event->actor->id,
-                app('translator')->trans(
+                $this->translator->trans(
                     'fof-moderator-notes.api.auto_note_actor',
                     [
                         'username' => $event->user->username,
@@ -62,7 +66,7 @@ class Impersonate
                         'reason'   => (property_exists($event, 'switchReason') &&
                             $event->switchReason !== ''
                             ? $event->switchReason
-                            : app('translator')->trans('fof-moderator-notes.api.no_reason_provided')),
+                            : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
                     ]
                 )
             )

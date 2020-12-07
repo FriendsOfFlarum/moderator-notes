@@ -11,13 +11,16 @@
 
 namespace FoF\ModeratorNotes;
 
+use Flarum\Api\Serializer\CurrentUserSerializer;
+use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\Formatter\Formatter;
+use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
 use FoF\ModeratorNotes\Model\ModeratorNote;
-use Illuminate\Contracts\Events\Dispatcher;
 
 return [
     (new Extend\Frontend('forum'))
@@ -33,10 +36,28 @@ return [
         ->post('/notes', 'moderator-notes.create', CreateModeratorNoteController::class)
         ->delete('/moderatorNotes/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
-    function (Dispatcher $events) {
-        $events->subscribe(Listeners\Permissions::class);
-        $events->subscribe(Listeners\Impersonate::class);
-    },
+    (new Extend\ApiSerializer(CurrentUserSerializer::class))
+        ->attribute('canViewModeratorNotes', function (CurrentUserSerializer $serializer, AbstractModel $user) {
+            return $serializer->getActor()->can('viewModeratorNotes', $user);
+        })
+        ->attribute('canCreateModeratorNotes', function (CurrentUserSerializer $serializer, AbstractModel $user) {
+            return $serializer->getActor()->can('createModeratorNotes', $user);
+        })
+        ->attribute('canDeleteModeratorNotes', function (CurrentUserSerializer $serializer) {
+            return $serializer->getActor()->hasPermission('user.deleteModeratorNotes');
+        }),
+
+    (new Extend\ApiSerializer(UserSerializer::class))
+        ->attribute('moderatorNoteCount', function (UserSerializer $serializer, AbstractModel $user) {
+            if ($serializer->getActor()->can('viewModeratorNotes', $user)) {
+                return ModeratorNote::where('user_id', $user->id)->count();
+            }
+
+            return null;
+        }),
+
+    (new Extend\Event())
+        ->listen(Impersonated::class, Listeners\Impersonate::class),
 
     function (Formatter $formatter) {
         ModeratorNote::setFormatter($formatter);

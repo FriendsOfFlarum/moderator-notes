@@ -6,12 +6,16 @@
   ],
   "type": "flarum-extension",
   "license": "MIT",
+  "support": {
+    "issues": "https://github.com/FriendsOfFlarum/moderator-notes/issues",
+    "source": "https://github.com/FriendsOfFlarum/moderator-notes"
+  },
   "require": {
     "flarum/core": ">=0.1.0-beta.15 <0.1.0-beta.16"
   },
   "authors": [
     {
-      "name": "Ian Morland",
+      "name": "IanM",
       "email": "ian@morland.me",
       "role": "Developer"
     },
