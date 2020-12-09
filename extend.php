@@ -13,7 +13,6 @@ namespace FoF\ModeratorNotes;
 
 use Flarum\Api\Serializer\CurrentUserSerializer;
 use Flarum\Api\Serializer\UserSerializer;
-use Flarum\Database\AbstractModel;
 use Flarum\Extend;
 use Flarum\Formatter\Formatter;
 use FoF\Impersonate\Events\Impersonated;
@@ -37,15 +36,7 @@ return [
         ->delete('/moderatorNotes/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
     (new Extend\ApiSerializer(CurrentUserSerializer::class))
-        ->attribute('canViewModeratorNotes', function (CurrentUserSerializer $serializer, AbstractModel $user) {
-            return $serializer->getActor()->can('viewModeratorNotes', $user);
-        })
-        ->attribute('canCreateModeratorNotes', function (CurrentUserSerializer $serializer, AbstractModel $user) {
-            return $serializer->getActor()->can('createModeratorNotes', $user);
-        })
-        ->attribute('canDeleteModeratorNotes', function (CurrentUserSerializer $serializer) {
-            return $serializer->getActor()->hasPermission('user.deleteModeratorNotes');
-        }),
+        ->mutate(AddAttributesBasedOnPermission::class),
 
     (new Extend\ApiSerializer(UserSerializer::class))
         ->mutate(AddModeratorNoteCount::class),
