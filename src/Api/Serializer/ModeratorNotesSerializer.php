@@ -15,6 +15,7 @@ use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Post\Post;
 use FoF\ModeratorNotes\Model\ModeratorNote;
+use Laminas\Diactoros\ServerRequest;
 
 class ModeratorNotesSerializer extends AbstractSerializer
 {
@@ -46,6 +47,6 @@ class ModeratorNotesSerializer extends AbstractSerializer
     {
         $formatter = ModeratorNote::getFormatter();
 
-        return $formatter->render($note, new Post());
+        return $formatter->render($note, new Post(), new ServerRequest());
     }
 }
