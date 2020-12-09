@@ -8,8 +8,8 @@ import listItems from 'flarum/helpers/listItems';
 import ItemList from 'flarum/utils/ItemList';
 
 export default class ModeratorNotes extends Component {
-    oninit(vdom) {
-        super.oninit(vdom);
+    oninit(vnode) {
+        super.oninit(vnode);
         this.loading = true;
         this.notes = [];
         this.refresh();
@@ -29,7 +29,7 @@ export default class ModeratorNotes extends Component {
                     <ul className="ModeratorNotes-toolbar-action">{listItems(this.actionItems().toArray())}</ul>
                 </div>
                 <ul className="ModeratorNotesList-discussions">
-                    {this.notes.map(note => {
+                    {this.notes.map((note) => {
                         return (
                             <li key={note.id()} data-id={note.id()}>
                                 {NoteListItem.component({ note })}
@@ -46,9 +46,8 @@ export default class ModeratorNotes extends Component {
     }
 
     actionItems() {
-        const { user } = this.attrs.params;
         const items = new ItemList();
-        const canCreateNote = user.canCreateModeratorNotes();
+        const canCreateNote = app.session.user.canCreateModeratorNotes();
 
         items.add(
             'create_note',
@@ -75,7 +74,7 @@ export default class ModeratorNotes extends Component {
 
     refresh() {
         return app.store.find('notes', this.attrs.params.user.id()).then(
-            results => {
+            (results) => {
                 this.notes = [];
                 this.parseResults(results);
             },

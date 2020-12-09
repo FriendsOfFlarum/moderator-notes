@@ -5,8 +5,8 @@ import stream from 'flarum/utils/Stream';
 import withAttr from 'flarum/utils/withAttr';
 
 export default class ModeratorNotesCreate extends Modal {
-    oninit(vdom) {
-        super.oninit(vdom);
+    oninit(vnode) {
+        super.oninit(vnode);
 
         this.noteContent = stream('');
     }
