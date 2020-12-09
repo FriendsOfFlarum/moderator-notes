@@ -48,13 +48,7 @@ return [
         }),
 
     (new Extend\ApiSerializer(UserSerializer::class))
-        ->attribute('moderatorNoteCount', function (UserSerializer $serializer, AbstractModel $user) {
-            if ($serializer->getActor()->can('viewModeratorNotes', $user)) {
-                return ModeratorNote::where('user_id', $user->id)->count();
-            }
-
-            return null;
-        }),
+        ->mutate(AddModeratorNoteCount::class),
 
     (new Extend\Event())
         ->listen(Impersonated::class, Listeners\Impersonate::class),
