@@ -6,6 +6,7 @@ import avatar from 'flarum/helpers/avatar';
 import Dropdown from 'flarum/components/Dropdown';
 import ItemList from 'flarum/utils/ItemList';
 import Button from 'flarum/components/Button';
+import Link from 'flarum/components/Link';
 
 export default class NoteListItem extends Component {
     view() {
@@ -28,7 +29,7 @@ export default class NoteListItem extends Component {
                     : ''}
                 <div className="ModeratorNotesListItem-main">
                     <div className="ModeratorNotesListItem-title">
-                        <a
+                        <Link
                             href={addedByUser ? app.route.user(addedByUser) : '#'}
                             className="ModeratorNotesListItem-author"
                             title={extractText(
@@ -37,13 +38,13 @@ export default class NoteListItem extends Component {
                                     date: formatedDate,
                                 })
                             )}
-                            config={function(element) {
+                            config={function (element) {
                                 $(element).tooltip({ placement: 'right' });
                                 m.route.apply(this, arguments);
                             }}
                         >
                             {avatar(addedByUser, { title: '' })} {username(addedByUser)}
-                        </a>
+                        </Link>
                     </div>
                     <p>{formatedDate}</p>
                     <hr />

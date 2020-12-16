@@ -5,13 +5,13 @@ import ModeratorNotesPage from './components/ModeratorNotesPage';
 import Model from 'flarum/Model';
 import User from 'flarum/models/User';
 
-export default function() {
+export default function () {
     User.prototype.canViewModeratorNotes = Model.attribute('canViewModeratorNotes');
     User.prototype.moderatorNoteCount = Model.attribute('moderatorNoteCount');
 
     app.routes['user.notes'] = { path: '/u/:username/notes', component: ModeratorNotesPage };
 
-    extend(UserPage.prototype, 'navItems', function(items) {
+    extend(UserPage.prototype, 'navItems', function (items) {
         if (this.user.canViewModeratorNotes()) {
             items.add(
                 'notes',

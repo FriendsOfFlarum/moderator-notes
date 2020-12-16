@@ -6,13 +6,25 @@
   ],
   "type": "flarum-extension",
   "license": "MIT",
+  "support": {
+    "issues": "https://github.com/FriendsOfFlarum/moderator-notes/issues",
+    "source": "https://github.com/FriendsOfFlarum/moderator-notes",
+    "forum": "https://discuss.flarum.org/d/22925"
+  },
+  "homepage": "https://friendsofflarum.org",
+  "funding": [
+    {
+      "type": "website",
+      "url": "https://opencollective.com/fof/donate"
+    }
+  ],
   "require": {
-    "flarum/core": ">=0.1.0-beta.14 <0.1.0-beta.15"
+    "flarum/core": ">=0.1.0-beta.15 <0.1.0-beta.16"
   },
   "authors": [
     {
-      "name": "Ian Morland",
-      "email": "ian@morland.me",
+      "name": "IanM",
+      "homepage": "https://discuss.flarum.org/u/ianm",
       "role": "Developer"
     },
     {
@@ -29,6 +41,7 @@
   "extra": {
     "flarum-extension": {
       "title": "FoF Moderator Notes",
+      "category": "moderation",
       "icon": {
         "name": "fas fa-sticky-note",
         "backgroundColor": "#e74c3c",
