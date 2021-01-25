@@ -59,12 +59,13 @@ export default class ModeratorNotesCreate extends Modal {
             )
             .then(this.hide.bind(this))
             .then(this.attrs.callback)
-            .catch(() => {});
+            .catch(() => {})
+            .then(this.loaded.bind(this));;
     }
 
     onerror(error) {
         if (error.status === 422) {
-            error.alert.attrs.children = app.translator.trans('fof-moderator-notes.forum.moderatorNotes.no_content_given');
+            error.alert.attrs = app.translator.trans('fof-moderator-notes.forum.no_content_given');
         }
 
         super.onerror(error);
