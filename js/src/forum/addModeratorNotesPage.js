@@ -12,7 +12,7 @@ export default function () {
     app.routes['user.notes'] = { path: '/u/:username/notes', component: ModeratorNotesPage };
 
     extend(UserPage.prototype, 'navItems', function (items) {
-        if (app.session.user && app.session.user.canViewModeratorNotes()) {console.log(this.user);
+        if (app.session.user && app.session.user.canViewModeratorNotes()) {
             items.add(
                 'notes',
                 LinkButton.component(
