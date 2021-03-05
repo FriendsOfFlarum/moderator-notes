@@ -36,10 +36,10 @@ return [
         ->delete('/moderatorNotes/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
     (new Extend\ApiSerializer(CurrentUserSerializer::class))
-        ->mutate(AddAttributesBasedOnPermission::class),
+        ->attributes(AddAttributesBasedOnPermission::class),
 
     (new Extend\ApiSerializer(UserSerializer::class))
-        ->mutate(AddModeratorNoteCount::class),
+        ->attributes(AddModeratorNoteCount::class),
 
     (new Extend\Event())
         ->listen(Impersonated::class, Listeners\Impersonate::class),
