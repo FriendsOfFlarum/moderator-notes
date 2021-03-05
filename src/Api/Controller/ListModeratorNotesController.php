@@ -44,7 +44,7 @@ class ListModeratorNotesController extends AbstractListController
          */
         $actor = $request->getAttribute('actor');
 
-        $actor->hasPermission('user.viewModeratorNotes');
+        $actor->assertPermission('user.viewModeratorNotes');
 
         return ModeratorNote::where('user_id', $id)->orderBy('created_at', 'desc')->get();
     }
