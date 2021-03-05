@@ -44,7 +44,7 @@ class CreateModeratorNoteController extends AbstractCreateController
          * @var \Flarum\User\User $actor
          */
         $actor = $request->getAttribute('actor');
-        $actor->hasPermission('user.createModeratorNotes');
+        $actor->assertCan('user.createModeratorNotes');
 
         $requestBody = $request->getParsedBody();
         $requestData = $requestBody['data']['attributes'];

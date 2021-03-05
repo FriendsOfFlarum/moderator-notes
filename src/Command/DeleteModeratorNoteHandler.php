@@ -34,7 +34,7 @@ class DeleteModeratorNoteHandler
     public function handle(DeleteModeratorNote $command)
     {
         $actor = $command->actor;
-        $actor->hasPermission('user.deleteModeratorNotes');
+        $actor->assertCan('user.deleteModeratorNotes');
 
         $note = ModeratorNote::findOrFail($command->noteId);
 
