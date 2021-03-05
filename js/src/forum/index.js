@@ -3,7 +3,7 @@ import addModeratorNotesPage from './addModeratorNotesPage';
 import ModeratorNote from './model/ModeratorNote';
 import { Extend } from '@flarum/core/forum';
 import User from 'flarum/models/User';
-import Model from 'flarum/Model';
+import Model from 'flarum/common/Model';
 
 app.initializers.add('fof-moderator-notes', (app) => {
     app.store.models.notes = ModeratorNote;

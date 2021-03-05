@@ -1,11 +1,11 @@
-import Component from 'flarum/Component';
+import Component from 'flarum/common/Component';
 import app from 'flarum/app';
-import LoadingIndicator from 'flarum/components/LoadingIndicator';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import NoteListItem from './NoteListItem';
-import Button from 'flarum/components/Button';
+import Button from 'flarum/common/components/Button';
 import NoteCreate from './ModeratorNotesCreate';
-import listItems from 'flarum/helpers/listItems';
-import ItemList from 'flarum/utils/ItemList';
+import listItems from 'flarum/common/helpers/listItems';
+import ItemList from 'flarum/common/utils/ItemList';
 
 export default class ModeratorNotes extends Component {
     oninit(vnode) {

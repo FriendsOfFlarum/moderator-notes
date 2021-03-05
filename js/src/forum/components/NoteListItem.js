@@ -1,12 +1,12 @@
-import Component from 'flarum/Component';
-import username from 'flarum/helpers/username';
-import fullTime from 'flarum/helpers/fullTime';
-import extractText from 'flarum/utils/extractText';
-import avatar from 'flarum/helpers/avatar';
-import Dropdown from 'flarum/components/Dropdown';
-import ItemList from 'flarum/utils/ItemList';
-import Button from 'flarum/components/Button';
-import Link from 'flarum/components/Link';
+import Component from 'flarum/common/Component';
+import username from 'flarum/common/helpers/username';
+import fullTime from 'flarum/common/helpers/fullTime';
+import extractText from 'flarum/common/utils/extractText';
+import avatar from 'flarum/common/helpers/avatar';
+import Dropdown from 'flarum/common/components/Dropdown';
+import ItemList from 'flarum/common/utils/ItemList';
+import Button from 'flarum/common/components/Button';
+import Link from 'flarum/common/components/Link';
 
 export default class NoteListItem extends Component {
     view() {

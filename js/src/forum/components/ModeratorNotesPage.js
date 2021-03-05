@@ -1,4 +1,4 @@
-import UserPage from 'flarum/components/UserPage';
+import UserPage from 'flarum/forum/components/UserPage';
 import ModeratorNotes from './ModeratorNotes';
 
 export default class ModeratorNotesPage extends UserPage {
