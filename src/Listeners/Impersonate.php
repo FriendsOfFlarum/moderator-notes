@@ -11,10 +11,10 @@
 
 namespace FoF\ModeratorNotes\Listeners;
 
-use Flarum\Locale\Translator;
 use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Command\CreateModeratorNote;
 use Illuminate\Contracts\Bus\Dispatcher as Bus;
+use Illuminate\Contracts\Translation\Translator;
 
 class Impersonate
 {
