@@ -14,7 +14,7 @@ namespace FoF\ModeratorNotes\Listeners;
 use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Command\CreateModeratorNote;
 use Illuminate\Contracts\Bus\Dispatcher as Bus;
-use Symfony\Component\Translation\TranslatorInterface;
+use Illuminate\Contracts\Translation\Translator;
 
 class Impersonate
 {
@@ -24,11 +24,11 @@ class Impersonate
     protected $bus;
 
     /**
-     * @var TranslatorInterface
+     * @var Translator
      */
     protected $translator;
 
-    public function __construct(Bus $bus, TranslatorInterface $translator)
+    public function __construct(Bus $bus, Translator $translator)
     {
         $this->bus = $bus;
         $this->translator = $translator;
