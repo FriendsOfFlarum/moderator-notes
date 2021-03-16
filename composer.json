@@ -41,7 +41,7 @@
   "extra": {
     "flarum-extension": {
       "title": "FoF Moderator Notes",
-      "category": "moderation",
+      "category": "feature",
       "icon": {
         "name": "fas fa-sticky-note",
         "backgroundColor": "#e74c3c",
