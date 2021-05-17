@@ -12,12 +12,12 @@
 namespace FoF\ModeratorNotes\Command;
 
 use Flarum\Foundation\ValidationException;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Flarum\Post\Post;
 use FoF\ModeratorNotes\Events\ModeratorNoteCreated;
 use FoF\ModeratorNotes\Model\ModeratorNote;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Carbon;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateModeratorNoteHandler
 {
