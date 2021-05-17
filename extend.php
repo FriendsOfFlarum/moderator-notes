@@ -14,12 +14,11 @@ namespace FoF\ModeratorNotes;
 use Flarum\Api\Serializer\CurrentUserSerializer;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
-use Flarum\Formatter\Formatter;
 use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
-use FoF\ModeratorNotes\Model\ModeratorNote;
+use FoF\ModeratorNotes\Provider\ModeratorNotesProvider as ProviderModeratorNotesProvider;
 
 return [
     (new Extend\Frontend('forum'))
@@ -44,7 +43,6 @@ return [
     (new Extend\Event())
         ->listen(Impersonated::class, Listeners\Impersonate::class),
 
-    function (Formatter $formatter) {
-        ModeratorNote::setFormatter($formatter);
-    },
+    (new Extend\ServiceProvider())
+        ->register(ProviderModeratorNotesProvider::class),
 ];
