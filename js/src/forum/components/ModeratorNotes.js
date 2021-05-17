@@ -16,18 +16,13 @@ export default class ModeratorNotes extends Component {
     }
 
     view() {
-        let loading;
-
-        if (this.loading) {
-            loading = LoadingIndicator.component();
-        }
-
         return (
             <div className="ModeratorNotesList">
                 <h1 className="ModeratorNotesList-notes">{app.translator.trans('fof-moderator-notes.forum.user.notes')}</h1>
                 <div class="ModeratorNotes-toolbar">
                     <ul className="ModeratorNotes-toolbar-action">{listItems(this.actionItems().toArray())}</ul>
                 </div>
+                {this.loading? <LoadingIndicator /> :
                 <ul className="ModeratorNotesList-discussions">
                     {this.notes.map((note) => {
                         return (
@@ -39,8 +34,7 @@ export default class ModeratorNotes extends Component {
                     {!this.loading && this.notes.length === 0 && (
                         <label>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')}</label>
                     )}
-                </ul>
-                <div className="ModeratorNotesList-loadMore">{loading}</div>
+                </ul>}
             </div>
         );
     }
