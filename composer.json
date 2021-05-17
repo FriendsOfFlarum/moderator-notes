@@ -46,7 +46,10 @@
         "name": "fas fa-sticky-note",
         "backgroundColor": "#e74c3c",
         "color": "#fff"
-      }
+      },
+      "optional-dependencies": [
+        "fof/impersonate"
+      ]
     },
     "flagrow": {
       "discuss": "https://discuss.flarum.org/d/22925"
