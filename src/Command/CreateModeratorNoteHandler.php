@@ -12,7 +12,7 @@
 namespace FoF\ModeratorNotes\Command;
 
 use Flarum\Foundation\ValidationException;
-use Flarum\Locale\Translator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Flarum\Post\Post;
 use FoF\ModeratorNotes\Events\ModeratorNoteCreated;
 use FoF\ModeratorNotes\Model\ModeratorNote;
@@ -21,10 +21,13 @@ use Illuminate\Support\Carbon;
 
 class CreateModeratorNoteHandler
 {
+    /** @var Dispatcher */
     protected $bus;
+
+    /** @var TranslatorInterface */
     protected $translator;
 
-    public function __construct(Dispatcher $bus, Translator $translator)
+    public function __construct(Dispatcher $bus, TranslatorInterface $translator)
     {
         $this->bus = $bus;
         $this->translator = $translator;
