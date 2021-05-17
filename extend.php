@@ -18,7 +18,7 @@ use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
-use FoF\ModeratorNotes\Provider\ModeratorNotesProvider as ProviderModeratorNotesProvider;
+use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
 
 return [
     (new Extend\Frontend('forum'))
@@ -44,5 +44,5 @@ return [
         ->listen(Impersonated::class, Listeners\Impersonate::class),
 
     (new Extend\ServiceProvider())
-        ->register(ProviderModeratorNotesProvider::class),
+        ->register(ModeratorNotesProvider::class),
 ];
