@@ -22,19 +22,22 @@ export default class ModeratorNotes extends Component {
                 <div class="ModeratorNotes-toolbar">
                     <ul className="ModeratorNotes-toolbar-action">{listItems(this.actionItems().toArray())}</ul>
                 </div>
-                {this.loading? <LoadingIndicator /> :
-                <ul className="ModeratorNotesList-discussions">
-                    {this.notes.map((note) => {
-                        return (
-                            <li key={note.id()} data-id={note.id()}>
-                                {NoteListItem.component({ note })}
-                            </li>
-                        );
-                    })}
-                    {!this.loading && this.notes.length === 0 && (
-                        <label>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')}</label>
-                    )}
-                </ul>}
+                {this.loading ? (
+                    <LoadingIndicator display="block" />
+                ) : (
+                    <ul className="ModeratorNotesList-discussions">
+                        {this.notes.map((note) => {
+                            return (
+                                <li key={note.id()} data-id={note.id()}>
+                                    {NoteListItem.component({ note })}
+                                </li>
+                            );
+                        })}
+                        {!this.loading && this.notes.length === 0 && (
+                            <label>{app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')}</label>
+                        )}
+                    </ul>
+                )}
             </div>
         );
     }
