@@ -6,11 +6,11 @@ import User from 'flarum/common/models/User';
 import Model from 'flarum/common/Model';
 
 app.initializers.add('fof-moderator-notes', () => {
-    app.store.models.notes = ModeratorNote;
-    User.prototype.canViewModeratorNotes = Model.attribute('canViewModeratorNotes');
-    User.prototype.canCreateModeratorNotes = Model.attribute('canCreateModeratorNotes');
-    User.prototype.canDeleteModeratorNotes = Model.attribute('canDeleteModeratorNotes');
-    addModeratorNotesPage();
+  app.store.models.notes = ModeratorNote;
+  User.prototype.canViewModeratorNotes = Model.attribute('canViewModeratorNotes');
+  User.prototype.canCreateModeratorNotes = Model.attribute('canCreateModeratorNotes');
+  User.prototype.canDeleteModeratorNotes = Model.attribute('canDeleteModeratorNotes');
+  addModeratorNotesPage();
 });
 
 export const extend = [new Extend.Model('moderatorNotes', ModeratorNote)];
