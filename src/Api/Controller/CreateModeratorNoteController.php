@@ -12,6 +12,7 @@
 namespace FoF\ModeratorNotes\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Http\RequestUtil;
 use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
 use FoF\ModeratorNotes\Command\CreateModeratorNote;
 use Illuminate\Contracts\Bus\Dispatcher;
@@ -43,7 +44,7 @@ class CreateModeratorNoteController extends AbstractCreateController
         /**
          * @var \Flarum\User\User $actor
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor(($request));
         $actor->assertCan('user.createModeratorNotes');
 
         $requestBody = $request->getParsedBody();
