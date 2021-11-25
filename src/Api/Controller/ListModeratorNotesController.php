@@ -12,6 +12,7 @@
 namespace FoF\ModeratorNotes\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\Http\RequestUtil;
 use Flarum\User\Exception\PermissionDeniedException;
 use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
 use FoF\ModeratorNotes\Model\ModeratorNote;
@@ -42,7 +43,7 @@ class ListModeratorNotesController extends AbstractListController
         /**
          * @var \Flarum\User\User $actor
          */
-        $actor = $request->getAttribute('actor');
+        $actor = RequestUtil::getActor($request);
 
         $actor->assertCan('user.viewModeratorNotes');
 

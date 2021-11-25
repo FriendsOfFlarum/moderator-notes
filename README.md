@@ -6,10 +6,10 @@ A [Flarum](http://flarum.org) extension. Create private notes for your forum use
 
 ### Installation
 
-Use [Bazaar](https://discuss.flarum.org/d/5151-flagrow-bazaar-the-extension-marketplace) or install manually with composer:
+Install manually with composer:
 
 ```sh
-composer require fof/moderator-notes
+composer require fof/moderator-notes:"*"
 ```
 
 ### Updating
