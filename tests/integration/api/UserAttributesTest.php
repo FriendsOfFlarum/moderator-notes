@@ -66,7 +66,7 @@ class UserAttributesTest extends TestCase
     {
         $response = $this->send(
             $this->request('GET', '/api/users/3', [
-                'authenticatedAs' => 3
+                'authenticatedAs' => 3,
             ])
         );
 
@@ -88,13 +88,13 @@ class UserAttributesTest extends TestCase
     {
         $this->prepareDatabase([
             'group_permission' => [
-                ['group_id' => Group::MEMBER_ID, 'permission' => 'user.deleteModeratorNotes']
-            ]
-            ]);
-        
+                ['group_id' => Group::MEMBER_ID, 'permission' => 'user.deleteModeratorNotes'],
+            ],
+        ]);
+
         $response = $this->send(
             $this->request('GET', '/api/users/3', [
-                'authenticatedAs' => 3
+                'authenticatedAs' => 3,
             ])
         );
 
