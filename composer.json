@@ -71,7 +71,12 @@
       "test:setup": "Sets up a database for use with integration tests. Execute this only once."
   },
   "require-dev": {
-      "flarum/testing": "^1.0.0",
+    "flarum/core": "*@dev",
+    "flarum/markdown": "*@dev",
+    "flarum/testing": "^1.0.0",
     "symfony/var-dumper": "*"
+  },
+  "config": {
+    "sort-packages": true
   }
 }
