@@ -66,7 +66,7 @@ class UserAttributesTest extends TestCase
     {
         $response = $this->send(
             $this->request('GET', '/api/users/4', [
-                'authenticatedAs' => 4
+                'authenticatedAs' => 4,
             ])
         );
 
