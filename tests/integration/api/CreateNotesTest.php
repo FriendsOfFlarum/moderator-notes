@@ -65,7 +65,37 @@ class CreateNotesTest extends TestCase
         $response = json_decode($response->getBody(), true);
 
         $this->assertEquals(5, $response['data']['attributes']['userId']);
-        $this->assertEquals('<p>User posted against the guidelines</p>', $response['data']['attributes']['note']);
+        $this->assertEquals('User posted against the guidelines', $response['data']['attributes']['note']);
+        $this->assertArrayHasKey('createdAt', $response['data']['attributes']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_create_note_with_markdown_enabled()
+    {
+        $this->extension('flarum-markdown');
+        
+        $response = $this->send(
+            $this->request('POST', '/api/notes', [
+                'authenticatedAs' => 3,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'userId' => 5,
+                            'note'   => 'Some input text',
+                        ],
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertEquals(5, $response['data']['attributes']['userId']);
+        $this->assertEquals('<p>Some input text</p>', $response['data']['attributes']['note']);
         $this->assertArrayHasKey('createdAt', $response['data']['attributes']);
     }
 }
