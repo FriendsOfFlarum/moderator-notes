@@ -49,12 +49,12 @@ class CreateNotesTest extends TestCase
         $response = $this->send(
             $this->request('POST', '/api/notes', [
                 'authenticatedAs' => 3,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'userId' => 5,
-                            'note' => 'User posted against the guidelines',
-                        ]
+                            'note'   => 'User posted against the guidelines',
+                        ],
                     ],
                 ],
             ])
