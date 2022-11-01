@@ -57,6 +57,7 @@ class UserAttributesTest extends TestCase
         $this->assertArrayNotHasKey('canViewModeratorNotes', $response['data']['attributes']);
         $this->assertArrayNotHasKey('canCreateModeratorNotes', $response['data']['attributes']);
         $this->assertArrayNotHasKey('canDeleteModeratorNotes', $response['data']['attributes']);
+        $this->assertArrayNotHasKey('moderatorNoteCount', $response['data']['attributes']);
     }
 
     /**
@@ -77,6 +78,7 @@ class UserAttributesTest extends TestCase
         $this->assertArrayNotHasKey('canViewModeratorNotes', $response['data']['attributes']);
         $this->assertArrayNotHasKey('canCreateModeratorNotes', $response['data']['attributes']);
         $this->assertArrayNotHasKey('canDeleteModeratorNotes', $response['data']['attributes']);
+        $this->assertArrayNotHasKey('moderatorNoteCount', $response['data']['attributes']);
     }
 
     /**
@@ -99,6 +101,8 @@ class UserAttributesTest extends TestCase
         $this->assertArrayHasKey('canCreateModeratorNotes', $response['data']['attributes']);
         $this->assertEquals(true, $response['data']['attributes']['canCreateModeratorNotes']);
         $this->assertArrayNotHasKey('canDeleteModeratorNotes', $response['data']['attributes']);
+        $this->assertArrayHasKey('moderatorNoteCount', $response['data']['attributes']);
+        $this->assertEquals(0, $response['data']['attributes']['moderatorNoteCount']);
     }
 
     /**
@@ -128,5 +132,24 @@ class UserAttributesTest extends TestCase
         $this->assertEquals(true, $response['data']['attributes']['canCreateModeratorNotes']);
         $this->assertArrayHasKey('canDeleteModeratorNotes', $response['data']['attributes']);
         $this->assertEquals(true, $response['data']['attributes']['canDeleteModeratorNotes']);
+    }
+
+    /**
+     * @test
+     */
+    public function moderator_can_see_note_count_attr()
+    {
+        $response = $this->send(
+            $this->request('GET', '/api/users/5', [
+                'authenticatedAs' => 3,
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertArrayHasKey('moderatorNoteCount', $response['data']['attributes']);
+        $this->assertEquals(1, $response['data']['attributes']['moderatorNoteCount']);
     }
 }
