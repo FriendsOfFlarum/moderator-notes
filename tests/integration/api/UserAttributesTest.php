@@ -44,10 +44,30 @@ class UserAttributesTest extends TestCase
     /**
      * @test
      */
-    public function normal_user_does_not_have_moderator_notes_permission_attrs()
+    public function guest_user_does_not_have_moderator_notes_permission_attrs()
     {
         $response = $this->send(
             $this->request('GET', '/api/users/4')
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertArrayNotHasKey('canViewModeratorNotes', $response['data']['attributes']);
+        $this->assertArrayNotHasKey('canCreateModeratorNotes', $response['data']['attributes']);
+        $this->assertArrayNotHasKey('canDeleteModeratorNotes', $response['data']['attributes']);
+    }
+
+    /**
+     * @test
+     */
+    public function normal_user_does_not_have_moderator_notes_permission_attrs()
+    {
+        $response = $this->send(
+            $this->request('GET', '/api/users/4', [
+                'authenticatedAs' => 4
+            ])
         );
 
         $this->assertEquals(200, $response->getStatusCode());
