@@ -16,7 +16,6 @@ use Flarum\Formatter\Formatter;
 use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use FoF\ModeratorNotes\Model\ModeratorNote;
 
 class CreateNotesTest extends TestCase
 {
