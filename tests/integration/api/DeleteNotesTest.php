@@ -65,7 +65,7 @@ class DeleteNotesTest extends TestCase
                 ['group_id' => Group::MEMBER_ID, 'permission' => 'user.deleteModeratorNotes'],
             ],
         ]);
-        
+
         $response = $this->send(
             $this->request('DELETE', '/api/moderatorNotes/6', [
                 'authenticatedAs' => 3,
