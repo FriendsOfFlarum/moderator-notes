@@ -75,7 +75,7 @@ class CreateNotesTest extends TestCase
     public function user_with_permission_can_create_note_with_markdown_enabled()
     {
         $this->extension('flarum-markdown');
-        
+
         $response = $this->send(
             $this->request('POST', '/api/notes', [
                 'authenticatedAs' => 3,
