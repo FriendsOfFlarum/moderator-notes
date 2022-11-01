@@ -12,9 +12,11 @@
 namespace FoF\ModeratorNotes\Tests\integration;
 
 use Carbon\Carbon;
+use Flarum\Formatter\Formatter;
 use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use FoF\ModeratorNotes\Model\ModeratorNote;
 
 class CreateNotesTest extends TestCase
 {
@@ -39,6 +41,15 @@ class CreateNotesTest extends TestCase
                 ['id' => 6, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
             ],
         ]);
+    }
+
+    // workaround to `flarum/testing` not clearing the Formatter cache
+    // see https://github.com/flarum/framework/issues/3663
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        resolve(Formatter::class)->flush();
     }
 
     /**
@@ -72,6 +83,28 @@ class CreateNotesTest extends TestCase
     /**
      * @test
      */
+    public function user_without_permission_cannot_create_note()
+    {
+        $response = $this->send(
+            $this->request('POST', '/api/notes', [
+                'authenticatedAs' => 4,
+                'json'            => [
+                    'data' => [
+                        'attributes' => [
+                            'userId' => 5,
+                            'note'   => 'User posted against the guidelines',
+                        ],
+                    ],
+                ],
+            ])
+        );
+
+        $this->assertEquals(403, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
     public function user_with_permission_can_create_note_with_markdown_enabled()
     {
         $this->extension('flarum-markdown');
@@ -83,7 +116,7 @@ class CreateNotesTest extends TestCase
                     'data' => [
                         'attributes' => [
                             'userId' => 5,
-                            'note'   => 'Some input text',
+                            'note'   => 'Some _input_ text',
                         ],
                     ],
                 ],
@@ -95,7 +128,7 @@ class CreateNotesTest extends TestCase
         $response = json_decode($response->getBody(), true);
 
         $this->assertEquals(5, $response['data']['attributes']['userId']);
-        $this->assertEquals('<p>Some input text</p>', $response['data']['attributes']['note']);
+        $this->assertEquals('<p>Some <em>input</em> text</p>', $response['data']['attributes']['note']);
         $this->assertArrayHasKey('createdAt', $response['data']['attributes']);
     }
 }
