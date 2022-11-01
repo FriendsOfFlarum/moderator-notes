@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/moderator-notes.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\ModeratorNotes\Tests\integration;
 
 use Carbon\Carbon;
@@ -25,11 +34,11 @@ class ListNotesTest extends TestCase
                 ['id' => 5, 'username' => 'bad_user', 'email' => 'bad_user@machine.local', 'is_email_confirmed' => 1],
             ],
             'group_user' => [
-                ['user_id' => 3, 'group_id' => Group::MODERATOR_ID]
+                ['user_id' => 3, 'group_id' => Group::MODERATOR_ID],
             ],
             'users_notes' => [
-                ['id' => 6, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()]
-            ]
+                ['id' => 6, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
+            ],
         ]);
     }
 
@@ -52,10 +61,10 @@ class ListNotesTest extends TestCase
     {
         $this->database();
         $this->assertFalse(User::find(4)->can('user.viewModeratorNotes'));
-        
+
         $response = $this->send(
             $this->request('GET', '/api/notes/5', [
-                'authenticatedAs' => 4
+                'authenticatedAs' => 4,
             ])
         );
 
@@ -69,10 +78,10 @@ class ListNotesTest extends TestCase
     {
         $this->database();
         $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
-        
+
         $response = $this->send(
             $this->request('GET', '/api/notes/5', [
-                'authenticatedAs' => 3
+                'authenticatedAs' => 3,
             ])
         );
 
