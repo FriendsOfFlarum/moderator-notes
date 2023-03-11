@@ -13,4 +13,4 @@ app.initializers.add('fof-moderator-notes', () => {
   addModeratorNotesPage();
 });
 
-export const extend = [new Extend.Model('moderatorNotes', ModeratorNote)];
+export const extend = [new Extend.Store().add('moderatorNotes', ModeratorNote)];
