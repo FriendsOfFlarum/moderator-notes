@@ -1,3 +1,4 @@
+import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import username from 'flarum/common/helpers/username';
 import fullTime from 'flarum/common/helpers/fullTime';
@@ -7,6 +8,7 @@ import Dropdown from 'flarum/common/components/Dropdown';
 import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
 import Link from 'flarum/common/components/Link';
+import Tooltip from 'flarum/common/components/Tooltip';
 
 export default class NoteListItem extends Component {
   view() {
@@ -29,22 +31,19 @@ export default class NoteListItem extends Component {
           : ''}
         <div className="ModeratorNotesListItem-main">
           <div className="ModeratorNotesListItem-title">
-            <Link
-              href={addedByUser ? app.route.user(addedByUser) : '#'}
-              className="ModeratorNotesListItem-author"
-              title={extractText(
+            <Tooltip
+              text={extractText(
                 app.translator.trans('fof-moderator-notes.forum.moderatorNotes.created_text', {
                   user: addedByUser,
                   date: formatedDate,
                 })
               )}
-              config={function (element) {
-                $(element).tooltip({ placement: 'right' });
-                m.route.apply(this, arguments);
-              }}
+              position="right"
             >
-              {avatar(addedByUser, { title: '' })} {username(addedByUser)}
-            </Link>
+              <Link href={addedByUser ? app.route.user(addedByUser) : '#'} className="ModeratorNotesListItem-author">
+                {avatar(addedByUser, { title: '' })} {username(addedByUser)}
+              </Link>
+            </Tooltip>
           </div>
           <p>{formatedDate}</p>
           <hr />

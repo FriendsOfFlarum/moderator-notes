@@ -47,7 +47,7 @@ class DeleteNotesTest extends TestCase
     public function user_without_permission_cannot_delete_note()
     {
         $response = $this->send(
-            $this->request('DELETE', '/api/moderatorNotes/6', [
+            $this->request('DELETE', '/api/moderatorNote/6', [
                 'authenticatedAs' => 3,
             ])
         );
@@ -67,7 +67,7 @@ class DeleteNotesTest extends TestCase
         ]);
 
         $response = $this->send(
-            $this->request('DELETE', '/api/moderatorNotes/6', [
+            $this->request('DELETE', '/api/moderatorNote/6', [
                 'authenticatedAs' => 3,
             ])
         );

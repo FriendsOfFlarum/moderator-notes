@@ -57,7 +57,7 @@ class CreateNotesTest extends TestCase
     public function user_with_permission_can_create_note()
     {
         $response = $this->send(
-            $this->request('POST', '/api/notes', [
+            $this->request('POST', '/api/moderatorNote', [
                 'authenticatedAs' => 3,
                 'json'            => [
                     'data' => [
@@ -85,7 +85,7 @@ class CreateNotesTest extends TestCase
     public function user_without_permission_cannot_create_note()
     {
         $response = $this->send(
-            $this->request('POST', '/api/notes', [
+            $this->request('POST', '/api/moderatorNote', [
                 'authenticatedAs' => 4,
                 'json'            => [
                     'data' => [
@@ -109,7 +109,7 @@ class CreateNotesTest extends TestCase
         $this->extension('flarum-markdown');
 
         $response = $this->send(
-            $this->request('POST', '/api/notes', [
+            $this->request('POST', '/api/moderatorNote', [
                 'authenticatedAs' => 3,
                 'json'            => [
                     'data' => [
