@@ -17,7 +17,7 @@ use FoF\ModeratorNotes\Model\ModeratorNote;
 
 class ModeratorNotesSerializer extends AbstractSerializer
 {
-    protected $type = 'moderatorNotes';
+    protected $type = 'moderatorNote';
 
     /**
      * Get the default set of serialized attributes for a model.

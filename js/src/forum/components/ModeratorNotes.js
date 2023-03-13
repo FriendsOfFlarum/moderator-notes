@@ -68,7 +68,7 @@ export default class ModeratorNotes extends Component {
   }
 
   refresh() {
-    return app.store.find('notes', this.attrs.params.user.id()).then(
+    return app.store.find('moderatorNote', this.attrs.params.user.id()).then(
       (results) => {
         this.notes = [];
         this.parseResults(results);

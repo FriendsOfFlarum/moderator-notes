@@ -24,15 +24,17 @@ return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/resources/less/forum.less'),
+
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/resources/less/admin.less'),
+        
     new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Routes('api'))
-        ->get('/notes/{id}', 'moderator_notes.index', ListModeratorNotesController::class)
-        ->post('/notes', 'moderator-notes.create', CreateModeratorNoteController::class)
-        ->delete('/moderatorNotes/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
+        ->get('/moderatorNote/{id}', 'moderator_notes.index', ListModeratorNotesController::class)
+        ->post('/moderatorNote', 'moderator-notes.create', CreateModeratorNoteController::class)
+        ->delete('/moderatorNote/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
     (new Extend\ApiSerializer(CurrentUserSerializer::class))
         ->attributes(AddAttributesBasedOnPermission::class),
