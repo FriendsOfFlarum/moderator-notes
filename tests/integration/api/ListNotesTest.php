@@ -48,7 +48,7 @@ class ListNotesTest extends TestCase
     public function guest_user_cannot_list_notes()
     {
         $response = $this->send(
-            $this->request('GET', '/api/notes/5')
+            $this->request('GET', '/api/moderatorNote/5')
         );
 
         $this->assertEquals(403, $response->getStatusCode());
@@ -63,7 +63,7 @@ class ListNotesTest extends TestCase
         $this->assertFalse(User::find(4)->can('user.viewModeratorNotes'));
 
         $response = $this->send(
-            $this->request('GET', '/api/notes/5', [
+            $this->request('GET', '/api/moderatorNote/5', [
                 'authenticatedAs' => 4,
             ])
         );
@@ -80,7 +80,7 @@ class ListNotesTest extends TestCase
         $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
 
         $response = $this->send(
-            $this->request('GET', '/api/notes/5', [
+            $this->request('GET', '/api/moderatorNote/5', [
                 'authenticatedAs' => 3,
             ])
         );
