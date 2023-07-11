@@ -32,7 +32,7 @@ class DeleteModeratorNote
     /**
      * DeleteModeratorNote constructor.
      *
-     * @param $noteId
+     * @param      $noteId
      * @param User $actor
      */
     public function __construct($noteId, User $actor)
