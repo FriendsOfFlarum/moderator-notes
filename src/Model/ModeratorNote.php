@@ -16,15 +16,21 @@ use Flarum\Formatter\Formatter;
 use Flarum\User\User;
 
 /**
- * @property string note
- * @property Date
- * @property User addedByUser
+ * @property int       $user_id
+ * @property string    $note
+ * @property \DateTime $created_at
+ * @property \DateTime $updated_at
+ * @property int       $added_by_user_id
+ * @property User      $addedByUser
  */
 class ModeratorNote extends AbstractModel
 {
     protected $table = 'users_notes';
 
-    protected $dates = ['created_at'];
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     /**
      * The text formatter instance.

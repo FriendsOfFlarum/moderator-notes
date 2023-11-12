@@ -33,7 +33,7 @@ class CreateModeratorNoteHandler
     }
 
     /**
-     * @param CreateNote $command
+     * @param CreateModeratorNote $command
      *
      * @return ModeratorNote
      */
