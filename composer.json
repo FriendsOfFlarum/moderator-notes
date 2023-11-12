@@ -1,82 +1,92 @@
 {
-  "name": "fof/moderator-notes",
-  "description": "Create private notes for your forum users",
-  "keywords": [
-    "flarum"
-  ],
-  "type": "flarum-extension",
-  "license": "MIT",
-  "support": {
-    "issues": "https://github.com/FriendsOfFlarum/moderator-notes/issues",
-    "source": "https://github.com/FriendsOfFlarum/moderator-notes",
-    "forum": "https://discuss.flarum.org/d/22925"
-  },
-  "homepage": "https://friendsofflarum.org",
-  "funding": [
-    {
-      "type": "website",
-      "url": "https://opencollective.com/fof/donate"
-    }
-  ],
-  "require": {
-    "flarum/core": "^1.3.0"
-  },
-  "authors": [
-    {
-      "name": "IanM",
-      "email": "ian@blomstra.net",
-      "role": "Developer"
+    "name": "fof/moderator-notes",
+    "description": "Create private notes for your forum users",
+    "keywords": [
+        "flarum"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/FriendsOfFlarum/moderator-notes/issues",
+        "source": "https://github.com/FriendsOfFlarum/moderator-notes",
+        "forum": "https://discuss.flarum.org/d/22925"
     },
-    {
-      "name": "David Sevilla Martin",
-      "email": "me+fof@datitisev.me",
-      "role": "Developer"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "FoF\\ModeratorNotes\\": "src/"
-    }
-  },
-  "extra": {
-    "flarum-extension": {
-      "title": "FoF Moderator Notes",
-      "category": "feature",
-      "icon": {
-        "name": "fas fa-sticky-note",
-        "backgroundColor": "#e74c3c",
-        "color": "#fff"
-      },
-      "optional-dependencies": [
-        "fof/impersonate"
-      ]
+    "homepage": "https://friendsofflarum.org",
+    "funding": [
+        {
+            "type": "website",
+            "url": "https://opencollective.com/fof/donate"
+        }
+    ],
+    "require": {
+        "flarum/core": "^1.3.0"
     },
-    "flagrow": {
-      "discuss": "https://discuss.flarum.org/d/22925"
+    "authors": [
+        {
+            "name": "IanM",
+            "email": "ian@blomstra.net",
+            "role": "Developer"
+        },
+        {
+            "name": "David Sevilla Martin",
+            "email": "me+fof@datitisev.me",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FoF\\ModeratorNotes\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "FoF Moderator Notes",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-sticky-note",
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
+            },
+            "optional-dependencies": [
+                "fof/impersonate"
+            ]
+        },
+        "flagrow": {
+            "discuss": "https://discuss.flarum.org/d/22925"
+        },
+        "flarum-cli": {
+            "modules": {
+                "githubActions": true
+            }
+        }
+    },
+    "scripts": {
+        "test": [
+            "@test:unit",
+            "@test:integration"
+        ],
+        "test:unit": "phpunit -c tests/phpunit.unit.xml",
+        "test:integration": "phpunit -c tests/phpunit.integration.xml",
+        "test:setup": "@php tests/integration/setup.php",
+        "analyse:phpstan": "phpstan analyse",
+        "clear-cache:phpstan": "phpstan clear-result-cache"
+    },
+    "scripts-descriptions": {
+        "test": "Runs all tests.",
+        "test:unit": "Runs all unit tests.",
+        "test:integration": "Runs all integration tests.",
+        "test:setup": "Sets up a database for use with integration tests. Execute this only once.",
+        "analyse:phpstan": "Run static analysis"
+    },
+    "require-dev": {
+        "flarum/core": "*@dev",
+        "flarum/markdown": "*@dev",
+        "flarum/phpstan": "*",
+        "flarum/testing": "^1.0.0",
+        "fof/impersonate": "*",
+        "symfony/var-dumper": "*"
+    },
+    "config": {
+        "sort-packages": true
     }
-  },
-  "scripts": {
-      "test": [
-          "@test:unit",
-          "@test:integration"
-      ],
-      "test:unit": "phpunit -c tests/phpunit.unit.xml",
-      "test:integration": "phpunit -c tests/phpunit.integration.xml",
-      "test:setup": "@php tests/integration/setup.php"
-  },
-  "scripts-descriptions": {
-      "test": "Runs all tests.",
-      "test:unit": "Runs all unit tests.",
-      "test:integration": "Runs all integration tests.",
-      "test:setup": "Sets up a database for use with integration tests. Execute this only once."
-  },
-  "require-dev": {
-    "flarum/core": "*@dev",
-    "flarum/markdown": "*@dev",
-    "flarum/testing": "^1.0.0",
-    "symfony/var-dumper": "*"
-  },
-  "config": {
-    "sort-packages": true
-  }
 }
