@@ -22,7 +22,7 @@ class ModeratorNotesSerializer extends AbstractSerializer
     /**
      * Get the default set of serialized attributes for a model.
      *
-     * @param object|array $model
+     * @param \FoF\ModeratorNotes\Model\ModeratorNote $moderatorNote
      *
      * @return array
      */

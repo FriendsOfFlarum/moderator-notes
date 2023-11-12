@@ -36,10 +36,6 @@ class CreateModeratorNote
      */
     public $note;
 
-    /**
-     * @param User  $actor The user performing the action.
-     * @param array $data  The attributes of the new note.
-     */
     public function __construct(User $actor, int $user_id, string $note)
     {
         $this->actor = $actor;
