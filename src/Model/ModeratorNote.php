@@ -16,12 +16,12 @@ use Flarum\Formatter\Formatter;
 use Flarum\User\User;
 
 /**
- * @property int $user_id
- * @property string $note
+ * @property int       $user_id
+ * @property string    $note
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
- * @property int $added_by_user_id
- * @property User $addedByUser
+ * @property int       $added_by_user_id
+ * @property User      $addedByUser
  */
 class ModeratorNote extends AbstractModel
 {
