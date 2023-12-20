@@ -18,7 +18,7 @@ export default function () {
         'notes',
         LinkButton.component(
           {
-            href: app.route('user.notes', { username: this.user.username() }),
+            href: app.route('user.notes', { username: this.user.slug() }),
             icon: 'fas fa-sticky-note',
           },
           [
