@@ -16,6 +16,7 @@ use Flarum\Http\RequestUtil;
 use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
 use FoF\ModeratorNotes\Command\CreateModeratorNote;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -41,17 +42,17 @@ class CreateModeratorNoteController extends AbstractCreateController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        /**
-         * @var \Flarum\User\User $actor
-         */
         $actor = RequestUtil::getActor($request);
         $actor->assertCan('user.createModeratorNotes');
 
         $requestBody = $request->getParsedBody();
-        $requestData = $requestBody['data']['attributes'];
+        $data = Arr::get($requestBody, 'data.attributes', []);
+
+        $userId = Arr::get($data, 'userId');
+        $noteData = Arr::get($data, 'note');
 
         return $this->bus->dispatch(
-            new CreateModeratorNote($actor, $requestData['userId'], $requestData['note'])
+            new CreateModeratorNote($actor, $userId, $noteData)
         );
     }
 }
