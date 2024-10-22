@@ -5,7 +5,7 @@ import ModeratorNotesPage from './components/ModeratorNotesPage';
 
 export default [
   new Extend.Store() //
-    .add('fof-moderator-notes', ModeratorNote),
+    .add('moderatorNote', ModeratorNote),
 
   new Extend.Model(User) //
     .attribute<boolean>('canViewModeratorNotes')
