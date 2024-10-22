@@ -12,6 +12,7 @@
 namespace FoF\ModeratorNotes\Repository;
 
 use FoF\ModeratorNotes\Model\ModeratorNote;
+use Illuminate\Database\Eloquent\Builder;
 
 class ModeratorNotesRepository
 {

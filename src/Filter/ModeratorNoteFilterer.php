@@ -24,7 +24,7 @@ class ModeratorNoteFilterer extends AbstractFilterer
     protected $notes;
 
     /**
-     * @param PostRepository $posts
+     * @param ModeratorNotesRepository $notes
      * @param array          $filters
      * @param array          $filterMutators
      */
