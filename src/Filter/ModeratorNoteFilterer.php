@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of fof/moderator-notes.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\ModeratorNotes\Filter;
 
 use Flarum\Filter\AbstractFilterer;
@@ -16,8 +25,8 @@ class ModeratorNoteFilterer extends AbstractFilterer
 
     /**
      * @param PostRepository $posts
-     * @param array $filters
-     * @param array $filterMutators
+     * @param array          $filters
+     * @param array          $filterMutators
      */
     public function __construct(ModeratorNotesRepository $notes, array $filters, array $filterMutators)
     {
@@ -28,6 +37,6 @@ class ModeratorNoteFilterer extends AbstractFilterer
 
     protected function getQuery(User $actor): Builder
     {
-        return $this->notes->query()->select('users_notes.*');//->whereVisibleTo($actor);
+        return $this->notes->query()->select('users_notes.*'); //->whereVisibleTo($actor);
     }
 }

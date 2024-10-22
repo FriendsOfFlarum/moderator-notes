@@ -185,7 +185,6 @@ class ListNotesTest extends TestCase
         $this->assertEquals(2, $response['data'][0]['id']);
         $this->assertStringContainsString('another moderator note', $response['data'][1]['attributes']['note']);
         $this->assertEquals(3, $response['data'][1]['id']);
-
     }
 
     /**
