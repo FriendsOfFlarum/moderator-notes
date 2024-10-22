@@ -25,8 +25,8 @@ class ModeratorNoteFilterer extends AbstractFilterer
 
     /**
      * @param ModeratorNotesRepository $notes
-     * @param array          $filters
-     * @param array          $filterMutators
+     * @param array                    $filters
+     * @param array                    $filterMutators
      */
     public function __construct(ModeratorNotesRepository $notes, array $filters, array $filterMutators)
     {
