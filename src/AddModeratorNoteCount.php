@@ -13,14 +13,24 @@ namespace FoF\ModeratorNotes;
 
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\User\User;
-use FoF\ModeratorNotes\Model\ModeratorNote;
+use FoF\ModeratorNotes\Repository\ModeratorNotesRepository;
 
 class AddModeratorNoteCount
 {
+    /**
+     * @var ModeratorNotesRepository
+     */
+    protected $notes;
+    
+    public function __construct(ModeratorNotesRepository $notes)
+    {
+        $this->notes = $notes;
+    }
+    
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array
     {
         if ($serializer->getActor()->can('viewModeratorNotes', $user)) {
-            $attributes['moderatorNoteCount'] = ModeratorNote::where('user_id', $user->id)->count();
+            $attributes['moderatorNoteCount'] = $this->notes->query()->where('user_id', $user->id)->count();
         }
 
         return $attributes;
