@@ -21,12 +21,12 @@ class AddModeratorNoteCount
      * @var ModeratorNotesRepository
      */
     protected $notes;
-    
+
     public function __construct(ModeratorNotesRepository $notes)
     {
         $this->notes = $notes;
     }
-    
+
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array
     {
         if ($serializer->getActor()->can('viewModeratorNotes', $user)) {
