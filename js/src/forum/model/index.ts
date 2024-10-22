@@ -1,5 +1,5 @@
-import ModeratorNote from "./ModeratorNote";
+import ModeratorNote from './ModeratorNote';
 
 export const model = {
-    ModeratorNote
-}
+  ModeratorNote,
+};
