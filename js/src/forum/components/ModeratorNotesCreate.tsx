@@ -61,7 +61,7 @@ export default class ModeratorNotesCreate extends Modal<ModeratorNotesCreateAttr
     this.loading = true;
 
     app.store
-      .createRecord('fof-moderator-note')
+      .createRecord('moderatorNote')
       .save(
         {
           userId: this.user?.id(),
