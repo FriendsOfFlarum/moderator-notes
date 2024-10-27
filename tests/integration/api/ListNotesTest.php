@@ -37,7 +37,9 @@ class ListNotesTest extends TestCase
                 ['user_id' => 3, 'group_id' => Group::MODERATOR_ID],
             ],
             'users_notes' => [
-                ['id' => 6, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
+                ['id' => 1, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
+                ['id' => 2, 'user_id' => 4, 'note' => '<t><p>a moderator note</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
+                ['id' => 3, 'user_id' => 4, 'note' => '<t><p>another moderator note</p></t>', 'added_by_user_id' => 99, 'created_at' => Carbon::now()],
             ],
         ]);
     }
@@ -48,7 +50,7 @@ class ListNotesTest extends TestCase
     public function guest_user_cannot_list_notes()
     {
         $response = $this->send(
-            $this->request('GET', '/api/moderatorNote/5')
+            $this->request('GET', '/api/moderatorNote')
         );
 
         $this->assertEquals(403, $response->getStatusCode());
@@ -63,7 +65,7 @@ class ListNotesTest extends TestCase
         $this->assertFalse(User::find(4)->can('user.viewModeratorNotes'));
 
         $response = $this->send(
-            $this->request('GET', '/api/moderatorNote/5', [
+            $this->request('GET', '/api/moderatorNote', [
                 'authenticatedAs' => 4,
             ])
         );
@@ -74,13 +76,127 @@ class ListNotesTest extends TestCase
     /**
      * @test
      */
-    public function user_with_permission_can_list_notes()
+    public function user_with_permission_can_list_notes_for_user()
     {
         $this->database();
         $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
 
         $response = $this->send(
-            $this->request('GET', '/api/moderatorNote/5', [
+            $this->request('GET', '/api/moderatorNote', [
+                'authenticatedAs' => 3,
+            ])->withQueryParams([
+                'filter' => ['subject' => '5'],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertIsArray($response['data']);
+
+        $this->assertCount(1, $response['data']);
+
+        $this->assertStringContainsString('bad_user has been naughty', $response['data'][0]['attributes']['note']);
+        $this->assertEquals(1, $response['data'][0]['id']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_list_notes_by_author()
+    {
+        $this->database();
+        $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
+
+        $response = $this->send(
+            $this->request('GET', '/api/moderatorNote', [
+                'authenticatedAs' => 3,
+            ])->withQueryParams([
+                'filter' => ['author' => '99'],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertIsArray($response['data']);
+
+        $this->assertCount(1, $response['data']);
+
+        $this->assertStringContainsString('another moderator note', $response['data'][0]['attributes']['note']);
+        $this->assertEquals(3, $response['data'][0]['id']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_list_notes_by_author_and_subject()
+    {
+        $this->database();
+        $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
+
+        $response = $this->send(
+            $this->request('GET', '/api/moderatorNote', [
+                'authenticatedAs' => 3,
+            ])->withQueryParams([
+                'filter' => ['author' => '99', 'subject' => '4'],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertIsArray($response['data']);
+
+        $this->assertCount(1, $response['data']);
+
+        $this->assertStringContainsString('another moderator note', $response['data'][0]['attributes']['note']);
+        $this->assertEquals(3, $response['data'][0]['id']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_list_notes_by_subject_when_multiple_records_are_present()
+    {
+        $this->database();
+        $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
+
+        $response = $this->send(
+            $this->request('GET', '/api/moderatorNote', [
+                'authenticatedAs' => 3,
+            ])->withQueryParams([
+                'filter' => ['subject' => '4'],
+            ])
+        );
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $response = json_decode($response->getBody(), true);
+
+        $this->assertIsArray($response['data']);
+
+        $this->assertCount(2, $response['data']);
+
+        $this->assertStringContainsString('a moderator note', $response['data'][0]['attributes']['note']);
+        $this->assertEquals(2, $response['data'][0]['id']);
+        $this->assertStringContainsString('another moderator note', $response['data'][1]['attributes']['note']);
+        $this->assertEquals(3, $response['data'][1]['id']);
+    }
+
+    /**
+     * @test
+     */
+    public function user_with_permission_can_list_all_notes()
+    {
+        $this->database();
+        $this->assertTrue(User::find(3)->can('user.viewModeratorNotes'));
+
+        $response = $this->send(
+            $this->request('GET', '/api/moderatorNote', [
                 'authenticatedAs' => 3,
             ])
         );
@@ -90,5 +206,7 @@ class ListNotesTest extends TestCase
         $response = json_decode($response->getBody(), true);
 
         $this->assertIsArray($response['data']);
+
+        $this->assertCount(3, $response['data']);
     }
 }

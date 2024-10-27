@@ -1,5 +1,5 @@
 import app from 'flarum/forum/app';
-import Component from 'flarum/common/Component';
+import Component, { ComponentAttrs } from 'flarum/common/Component';
 import username from 'flarum/common/helpers/username';
 import fullTime from 'flarum/common/helpers/fullTime';
 import extractText from 'flarum/common/utils/extractText';
@@ -9,39 +9,46 @@ import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
 import Link from 'flarum/common/components/Link';
 import Tooltip from 'flarum/common/components/Tooltip';
+import ModeratorNote from '../model/ModeratorNote';
+import type Mithril from 'mithril';
 
-export default class NoteListItem extends Component {
+export interface NoteListItemAttrs extends ComponentAttrs {
+  note: ModeratorNote;
+  onDelete: () => void;
+}
+
+export default class NoteListItem extends Component<NoteListItemAttrs> {
   view() {
     const { note } = this.attrs;
     const addedByUser = note.addedByUser();
-    const formatedDate = fullTime(note.createdAt());
-    const actions = this.noteActions(note);
+    const createdAt = note.createdAt();
+    const formatedDate = createdAt instanceof Date ? fullTime(createdAt) : '';
+    const actions = this.noteActions(note).toArray();
 
     return (
       <div className="ModeratorNotesListItem">
-        {actions.length
-          ? Dropdown.component(
-              {
-                icon: 'fas fa-ellipsis-v',
-                className: 'ModeratorNotesListItem-controls',
-                buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
-              },
-              actions
-            )
-          : ''}
+        {actions.length &&
+          Dropdown.component(
+            {
+              icon: 'fas fa-ellipsis-v',
+              className: 'ModeratorNotesListItem-controls',
+              buttonClassName: 'Button Button--icon Button--flat Slidable-underneath Slidable-underneath--right',
+            },
+            actions
+          )}
         <div className="ModeratorNotesListItem-main">
           <div className="ModeratorNotesListItem-title">
             <Tooltip
               text={extractText(
                 app.translator.trans('fof-moderator-notes.forum.moderatorNotes.created_text', {
-                  user: addedByUser,
+                  username: addedByUser ? addedByUser.displayName() : '',
                   date: formatedDate,
                 })
               )}
               position="right"
             >
               <Link href={addedByUser ? app.route.user(addedByUser) : '#'} className="ModeratorNotesListItem-author">
-                {avatar(addedByUser, { title: '' })} {username(addedByUser)}
+                {addedByUser && avatar(addedByUser)} {addedByUser && username(addedByUser)}
               </Link>
             </Tooltip>
           </div>
@@ -59,10 +66,10 @@ export default class NoteListItem extends Component {
     );
   }
 
-  noteActions(context) {
-    const actions = new ItemList();
+  noteActions(context: ModeratorNote): ItemList<Mithril.Children> {
+    const actions = new ItemList<Mithril.Children>();
 
-    if (app.session.user.canDeleteModeratorNotes()) {
+    if (app.session.user?.canDeleteModeratorNotes()) {
       actions.add(
         'delete',
         Button.component(
@@ -75,18 +82,18 @@ export default class NoteListItem extends Component {
       );
     }
 
-    return actions.toArray();
+    return actions;
   }
 
-  deleteNote(note) {
-    if (confirm(app.translator.trans('fof-moderator-notes.forum.moderatorNotes.confirm')) === true) {
-      return note
-        .delete()
-        .then(() => {})
-        .catch(() => {})
-        .then(() => {
-          location.reload();
-        });
+  async deleteNote(note: ModeratorNote) {
+    if (confirm(extractText(app.translator.trans('fof-moderator-notes.forum.moderatorNotes.confirm')))) {
+      try {
+        await note.delete();
+
+        this.attrs.onDelete?.();
+      } catch (error) {
+        console.error('Failed to delete the note:', error);
+      }
     }
   }
 }

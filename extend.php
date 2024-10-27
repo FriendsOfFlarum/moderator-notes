@@ -18,6 +18,7 @@ use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
+use FoF\ModeratorNotes\Filter\ModeratorNoteFilterer;
 use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
 
 return [
@@ -32,7 +33,7 @@ return [
     new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Routes('api'))
-        ->get('/moderatorNote/{id}', 'moderator_notes.index', ListModeratorNotesController::class)
+        ->get('/moderatorNote', 'moderator_notes.index', ListModeratorNotesController::class)
         ->post('/moderatorNote', 'moderator-notes.create', CreateModeratorNoteController::class)
         ->delete('/moderatorNote/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
@@ -47,4 +48,8 @@ return [
 
     (new Extend\ServiceProvider())
         ->register(ModeratorNotesProvider::class),
+
+    (new Extend\Filter(ModeratorNoteFilterer::class))
+        ->addFilter(Filter\SubjectFilter::class)
+        ->addFilter(Filter\AuthorFilter::class),
 ];

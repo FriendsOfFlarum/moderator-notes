@@ -3,7 +3,8 @@
 
     &-action,
     &-view {
-        display: inline-block;
+        display: flex;
+        gap: 8px; // Space between action items
         margin: 0;
         list-style: none;
         padding: 0;
@@ -11,6 +12,12 @@
 
     &-view {
         float: right;
+    }
+
+    .Button--new-note {
+        .icon {
+            display: inline-block;
+        }
     }
 }
 

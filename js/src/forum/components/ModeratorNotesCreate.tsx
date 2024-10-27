@@ -1,15 +1,26 @@
 import app from 'flarum/forum/app';
-import Modal from 'flarum/common/components/Modal';
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
-import stream from 'flarum/common/utils/Stream';
+import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
+import type Mithril from 'mithril';
+import User from 'flarum/common/models/User';
 
-export default class ModeratorNotesCreate extends Modal {
-  oninit(vnode) {
+export interface ModeratorNotesCreateAttrs extends IInternalModalAttrs {
+  user?: User;
+  callback?: () => void;
+}
+
+export default class ModeratorNotesCreate extends Modal<ModeratorNotesCreateAttrs> {
+  noteContent: Stream<string>;
+  user?: User;
+
+  oninit(vnode: Mithril.Vnode<ModeratorNotesCreateAttrs>) {
     super.oninit(vnode);
 
-    this.noteContent = stream('');
+    this.user = this.attrs.user;
+    this.noteContent = Stream('');
   }
 
   className() {
@@ -28,7 +39,7 @@ export default class ModeratorNotesCreate extends Modal {
             <div>
               <label>
                 {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.input_heading', {
-                  username: username(this.attrs.user),
+                  username: username(this.user),
                 })}
                 <textarea className="FormControl" value={this.noteContent()} oninput={withAttr('value', this.noteContent)} rows="6" />
               </label>
@@ -44,7 +55,7 @@ export default class ModeratorNotesCreate extends Modal {
     );
   }
 
-  onsubmit(e) {
+  onsubmit(e: Event) {
     e.preventDefault();
 
     this.loading = true;
@@ -53,7 +64,7 @@ export default class ModeratorNotesCreate extends Modal {
       .createRecord('moderatorNote')
       .save(
         {
-          userId: this.attrs.user.id(),
+          userId: this.user?.id(),
           note: this.noteContent(),
         },
         { errorHandler: this.onerror.bind(this) }
@@ -64,7 +75,7 @@ export default class ModeratorNotesCreate extends Modal {
       .then(this.loaded.bind(this));
   }
 
-  onerror(error) {
+  onerror(error: any) {
     if (error.status === 422) {
       error.alert.attrs = app.translator.trans('fof-moderator-notes.forum.no_content_given');
     }

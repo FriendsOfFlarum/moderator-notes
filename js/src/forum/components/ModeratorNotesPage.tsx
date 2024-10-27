@@ -1,21 +1,18 @@
 import UserPage from 'flarum/forum/components/UserPage';
 import ModeratorNotes from './ModeratorNotes';
+import type Mithril from 'mithril';
 
 export default class ModeratorNotesPage extends UserPage {
-  oninit(vnode) {
+  oninit(vnode: Mithril.Vnode) {
     super.oninit(vnode);
+
     this.loadUser(m.route.param('username'));
   }
 
   content() {
     return (
       <div className="DiscussionsUserPage">
-        {ModeratorNotes.component({
-          params: {
-            user: this.user,
-            sort: 'newest',
-          },
-        })}
+        <ModeratorNotes user={this.user} sort="sort" />
       </div>
     );
   }

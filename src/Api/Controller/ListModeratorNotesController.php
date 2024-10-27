@@ -13,10 +13,12 @@ namespace FoF\ModeratorNotes\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
+use Flarum\Http\UrlGenerator;
+use Flarum\Query\QueryCriteria;
 use Flarum\User\Exception\PermissionDeniedException;
+use Flarum\User\UserRepository;
 use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
-use FoF\ModeratorNotes\Model\ModeratorNote;
-use Illuminate\Support\Arr;
+use FoF\ModeratorNotes\Filter\ModeratorNoteFilterer;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
@@ -25,6 +27,30 @@ class ListModeratorNotesController extends AbstractListController
     public $serializer = ModeratorNotesSerializer::class;
 
     public $include = ['addedByUser'];
+
+    public $sortFields = ['createdAt'];
+
+    /**
+     * @var ModeratorNoteFilterer
+     */
+    protected $filterer;
+
+    /**
+     * @var UserRepository
+     */
+    protected $users;
+
+    /**
+     * @var UrlGenerator
+     */
+    protected $url;
+
+    public function __construct(ModeratorNoteFilterer $filterer, UserRepository $users, UrlGenerator $url)
+    {
+        $this->filterer = $filterer;
+        $this->users = $users;
+        $this->url = $url;
+    }
 
     /**
      * Get the data to be serialized and assigned to the response document.
@@ -38,15 +64,31 @@ class ListModeratorNotesController extends AbstractListController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $id = Arr::get($request->getQueryParams(), 'id');
-
-        /**
-         * @var \Flarum\User\User $actor
-         */
         $actor = RequestUtil::getActor($request);
-
         $actor->assertCan('user.viewModeratorNotes');
 
-        return ModeratorNote::where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        $filters = $this->extractFilter($request);
+        $sort = $this->extractSort($request);
+        $sortIsDefault = $this->sortIsDefault($request);
+
+        $limit = $this->extractLimit($request);
+        $offset = $this->extractOffset($request);
+        $include = $this->extractInclude($request);
+
+        $results = $this->filterer->filter(new QueryCriteria($actor, $filters, $sort, $sortIsDefault), $limit, $offset);
+
+        $document->addPaginationLinks(
+            $this->url->to('api')->route('moderator_notes.index'),
+            $request->getQueryParams(),
+            $offset,
+            $limit,
+            $results->areMoreResults() ? null : 0
+        );
+
+        $results = $results->getResults();
+
+        $this->loadRelations($results, $include, $request);
+
+        return $results;
     }
 }
