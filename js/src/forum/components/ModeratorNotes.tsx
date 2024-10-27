@@ -11,6 +11,7 @@ import Mithril from 'mithril';
 import ModeratorNote from '../model/ModeratorNote';
 import Dropdown from 'flarum/common/components/Dropdown';
 import Placeholder from 'flarum/common/components/Placeholder';
+import { ApiResponsePlural } from 'flarum/common/Store';
 
 export interface ModeratorNotesAttrs extends ComponentAttrs {
   user: User;
@@ -23,6 +24,7 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
   user!: User;
   loadLimit: number = 20;
   sort: string = 'newest';
+  areMoreResults: boolean = false;
 
   oninit(vnode: Mithril.Vnode<ModeratorNotesAttrs>) {
     super.oninit(vnode);
@@ -33,28 +35,47 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
   }
 
   view() {
+    let loading;
+    if (this.loading) {
+      loading = <LoadingIndicator display="block" />;
+    } else if (this.areMoreResults) {
+      loading = (
+        <Button
+          className="Button"
+          onclick={() => {
+            this.loadResults(this.notes.length);
+          }}
+        >
+          {app.translator.trans('core.forum.discussion_list.load_more_button')}
+        </Button>
+      );
+    }
+
+    let content;
+    if (!this.loading && this.notes.length === 0) {
+      content = <Placeholder text={app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')} />;
+    } else {
+      content = (
+        <ul className="ModeratorNotesList-discussions">
+          {this.notes.map((note) => {
+            return (
+              <li key={note.id()} data-id={note.id()}>
+                <NoteListItem note={note} />
+              </li>
+            );
+          })}
+        </ul>
+      );
+    }
+
     return (
       <div className="ModeratorNotesList">
         <h1 className="ModeratorNotesList-notes">{app.translator.trans('fof-moderator-notes.forum.user.notes')}</h1>
         <div class="ModeratorNotes-toolbar">
           <ul className="ModeratorNotes-toolbar-action">{listItems(this.actionItems().toArray())}</ul>
         </div>
-        {this.loading ? (
-          <LoadingIndicator display="block" />
-        ) : (
-          <ul className="ModeratorNotesList-discussions">
-            {this.notes.map((note) => {
-              return (
-                <li key={note.id()} data-id={note.id()}>
-                  {NoteListItem.component({ note })}
-                </li>
-              );
-            })}
-            {!this.loading && this.notes.length === 0 && (
-              <Placeholder text={app.translator.trans('fof-moderator-notes.forum.moderatorNotes.noNotes')} />
-            )}
-          </ul>
-        )}
+        <div className="ModeratorNotesList-notes">{content}</div>
+        <div className="ModeratorNotesList-loadMore">{loading}</div>
       </div>
     );
   }
@@ -130,8 +151,10 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
       sort: this.sortmap()[this.sort],
     });
 
-    this.notes = results;
+    this.notes = offset === 0 ? results : this.notes.concat(results);
+
     this.loading = false;
+    this.areMoreResults = !!this.moreResults(results);
     m.redraw();
   }
 
@@ -141,5 +164,10 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
       callback: this.loadResults.bind(this),
       ...this.attrs,
     });
+  }
+
+  moreResults(results: ApiResponsePlural<ModeratorNote>): string | undefined {
+    // Either this will be undefined (no more results) or the URL to the next page
+    return results.payload.links?.next;
   }
 }
