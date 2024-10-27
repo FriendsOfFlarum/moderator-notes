@@ -14,6 +14,7 @@ import type Mithril from 'mithril';
 
 export interface NoteListItemAttrs extends ComponentAttrs {
   note: ModeratorNote;
+  onDelete: () => void;
 }
 
 export default class NoteListItem extends Component<NoteListItemAttrs> {
@@ -85,12 +86,14 @@ export default class NoteListItem extends Component<NoteListItemAttrs> {
   }
 
   async deleteNote(note: ModeratorNote) {
-    if (confirm(extractText(app.translator.trans('fof-moderator-notes.forum.moderatorNotes.confirm'))) === true) {
+    if (confirm(extractText(app.translator.trans('fof-moderator-notes.forum.moderatorNotes.confirm')))) {
       try {
         await note.delete();
-      } catch {}
-      location.reload();
+
+        this.attrs.onDelete?.();
+      } catch (error) {
+        console.error('Failed to delete the note:', error);
+      }
     }
-    return Promise.resolve();
   }
 }

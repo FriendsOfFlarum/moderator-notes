@@ -62,7 +62,7 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
           {this.notes.map((note) => {
             return (
               <li key={note.id()} data-id={note.id()}>
-                <NoteListItem note={note} />
+                <NoteListItem note={note} onDelete={() => this.handleDelete(note)} />
               </li>
             );
           })}
@@ -193,5 +193,11 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
   moreResults(results: ApiResponsePlural<ModeratorNote>): boolean {
     // Either this will be undefined (no more results) or the URL to the next page
     return !!results.payload.links?.next;
+  }
+
+  async handleDelete(note: ModeratorNote) {
+    // Remove the note from the list
+    this.notes = this.notes.filter((n) => n.id() !== note.id());
+    m.redraw();
   }
 }
