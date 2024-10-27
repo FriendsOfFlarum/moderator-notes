@@ -16,6 +16,7 @@ fof-moderator-notes:
       submit_button: Save note
       delete: Delete
       confirm: Are you sure you want to delete this note?
+      filter_by_me: Only notes I created
 
     user:
       notes: Moderator Notes

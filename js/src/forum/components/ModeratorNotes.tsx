@@ -12,6 +12,7 @@ import ModeratorNote from '../model/ModeratorNote';
 import Dropdown from 'flarum/common/components/Dropdown';
 import Placeholder from 'flarum/common/components/Placeholder';
 import { ApiResponsePlural } from 'flarum/common/Store';
+import Switch from 'flarum/common/components/Switch';
 
 export interface ModeratorNotesAttrs extends ComponentAttrs {
   user: User;
@@ -25,6 +26,7 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
   loadLimit: number = 20;
   sort: string = 'newest';
   areMoreResults: boolean = false;
+  filterByAuthor: boolean = false;
 
   oninit(vnode: Mithril.Vnode<ModeratorNotesAttrs>) {
     super.oninit(vnode);
@@ -98,6 +100,15 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
       return acc;
     }, {});
 
+    canCreateNote &&
+      items.add(
+        'create_note',
+        <Button className="Button Button--primary Button--new-note" icon="fas fa-edit" onclick={this.handleOnClickCreate.bind(this)}>
+          {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button')}
+        </Button>,
+        100
+      );
+
     items.add(
       'sort',
       <Dropdown
@@ -121,16 +132,23 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
             </Button>
           );
         })}
-      </Dropdown>
+      </Dropdown>,
+      80
     );
 
-    canCreateNote &&
-      items.add(
-        'create_note',
-        <Button className="Button Button--primary" onclick={this.handleOnClickCreate.bind(this)}>
-          {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.add_button')}
-        </Button>
-      );
+    items.add(
+      'filterByAuthor',
+      <Switch
+        state={this.filterByAuthor}
+        onchange={(value: boolean) => {
+          this.filterByAuthor = value;
+          this.loadResults();
+        }}
+      >
+        {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.filter_by_me')}
+      </Switch>,
+      60
+    );
 
     return items;
   }
@@ -143,10 +161,16 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
   async loadResults(offset = 0) {
     this.loading = true;
 
+    const filters: any = {
+      subject: this.user.id() as string,
+    };
+
+    if (this.filterByAuthor && app.session.user) {
+      filters.author = app.session.user.id();
+    }
+
     const results = await app.store.find<ModeratorNote[]>('moderatorNote', {
-      filter: {
-        subject: this.user.id() as string,
-      },
+      filter: filters,
       page: { offset, limit: this.loadLimit },
       sort: this.sortmap()[this.sort],
     });
@@ -154,7 +178,7 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
     this.notes = offset === 0 ? results : this.notes.concat(results);
 
     this.loading = false;
-    this.areMoreResults = !!this.moreResults(results);
+    this.areMoreResults = this.moreResults(results);
     m.redraw();
   }
 
@@ -166,8 +190,8 @@ export default class ModeratorNotes extends Component<ModeratorNotesAttrs> {
     });
   }
 
-  moreResults(results: ApiResponsePlural<ModeratorNote>): string | undefined {
+  moreResults(results: ApiResponsePlural<ModeratorNote>): boolean {
     // Either this will be undefined (no more results) or the URL to the next page
-    return results.payload.links?.next;
+    return !!results.payload.links?.next;
   }
 }
