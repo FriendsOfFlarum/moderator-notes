@@ -1,5 +1,7 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/forum/app';
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import { IFormModalAttrs } from 'flarum/common/components/FormModal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import username from 'flarum/common/helpers/username';
 import Stream from 'flarum/common/utils/Stream';
@@ -7,12 +9,12 @@ import withAttr from 'flarum/common/utils/withAttr';
 import type Mithril from 'mithril';
 import User from 'flarum/common/models/User';
 
-export interface ModeratorNotesCreateAttrs extends IInternalModalAttrs {
+export interface ModeratorNotesCreateAttrs extends IFormModalAttrs {
   user?: User;
   callback?: () => void;
 }
 
-export default class ModeratorNotesCreate extends Modal<ModeratorNotesCreateAttrs> {
+export default class ModeratorNotesCreate extends FormModal<ModeratorNotesCreateAttrs> {
   noteContent: Stream<string>;
   user?: User;
 
@@ -34,7 +36,7 @@ export default class ModeratorNotesCreate extends Modal<ModeratorNotesCreateAttr
   content() {
     return (
       <div className="Modal-body">
-        <div className="Form Form--centered">
+        <Form className="Form--centered">
           <div className="Form-group">
             <div>
               <label>
@@ -50,7 +52,7 @@ export default class ModeratorNotesCreate extends Modal<ModeratorNotesCreateAttr
               {app.translator.trans('fof-moderator-notes.forum.moderatorNotes.submit_button')}
             </Button>
           </div>
-        </div>
+        </Form>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import app from 'flarum/admin/app';
 
 app.initializers.add('fof-moderator-notes', () => {
-  app.extensionData
+  app.registry
     .for('fof-moderator-notes')
     .registerPermission(
       {
