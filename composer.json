@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^1.3.0"
+        "flarum/core": "^2.0.0-beta"
     },
     "authors": [
         {
@@ -79,10 +79,10 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/core": "*@dev",
+        "flarum/core": "^2.0.0-beta",
         "flarum/markdown": "*@dev",
-        "flarum/phpstan": "*",
-        "flarum/testing": "^1.0.0",
+        "flarum/phpstan": "^2.0.0-beta",
+        "flarum/testing": "^2.0.0-beta",
         "fof/impersonate": "*",
         "symfony/var-dumper": "*"
     },
