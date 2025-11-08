@@ -14,7 +14,7 @@ namespace FoF\ModeratorNotes\Api\Controller;
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\Http\RequestUtil;
 use Flarum\Http\UrlGenerator;
-use Flarum\Query\QueryCriteria;
+use Flarum\Search\SearchCriteria;
 use Flarum\User\Exception\PermissionDeniedException;
 use Flarum\User\UserRepository;
 use FoF\ModeratorNotes\Api\Serializer\ModeratorNotesSerializer;
@@ -63,7 +63,7 @@ class ListModeratorNotesController extends AbstractListController
         $offset = $this->extractOffset($request);
         $include = $this->extractInclude($request);
 
-        $results = $this->filterer->filter(new QueryCriteria($actor, $filters, $sort, $sortIsDefault), $limit, $offset);
+        $results = $this->filterer->filter(new SearchCriteria($actor, $filters, $sort, $sortIsDefault), $limit, $offset);
 
         $document->addPaginationLinks(
             $this->url->to('api')->route('moderator_notes.index'),

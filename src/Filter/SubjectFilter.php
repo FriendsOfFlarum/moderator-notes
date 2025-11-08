@@ -11,9 +11,9 @@
 
 namespace FoF\ModeratorNotes\Filter;
 
-use Flarum\Filter\FilterInterface;
-use Flarum\Filter\FilterState;
-use Flarum\Filter\ValidateFilterTrait;
+use Flarum\Search\Filter\FilterInterface;
+use Flarum\Search\SearchState;
+use Flarum\Search\Filter\ValidateFilterTrait;
 use FoF\ModeratorNotes\Repository\ModeratorNotesRepository;
 
 class SubjectFilter implements FilterInterface
@@ -29,12 +29,12 @@ class SubjectFilter implements FilterInterface
         return 'subject';
     }
 
-    public function filter(FilterState $filterState, $filterValue, bool $negate)
+    public function filter(SearchState $state, array|string $value, bool $negate): void
     {
-        $userIds = $this->asStringArray($filterValue);
+        $userIds = $this->asStringArray($value);
 
         $ids = $this->notes->query()->whereIn('user_id', $userIds)->pluck('id');
 
-        $filterState->getQuery()->whereIn('users_notes.id', $ids, 'and', $negate);
+        $state->getQuery()->whereIn('users_notes.id', $ids, 'and', $negate);
     }
 }

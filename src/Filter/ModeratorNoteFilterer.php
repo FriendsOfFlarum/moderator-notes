@@ -11,7 +11,7 @@
 
 namespace FoF\ModeratorNotes\Filter;
 
-use Flarum\Filter\AbstractFilterer;
+use Flarum\Search\Filter\AbstractFilterer;
 use Flarum\User\User;
 use FoF\ModeratorNotes\Repository\ModeratorNotesRepository;
 use Illuminate\Database\Eloquent\Builder;

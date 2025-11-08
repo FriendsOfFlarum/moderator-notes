@@ -54,9 +54,8 @@ return [
 
     (new Extend\ServiceProvider())
         ->register(ModeratorNotesProvider::class),
-
-    (new Extend\Filter(ModeratorNoteFilterer::class))
-        ->addFilter(Filter\SubjectFilter::class)
-        ->addFilter(Filter\AuthorFilter::class),
     new Extend\ApiResource(Api\Resource\ModeratorNoteResource::class),
+    (new Extend\SearchDriver(\Flarum\Search\Database\DatabaseSearchDriver::class))
+        ->addFilter(Filter\ModeratorNoteSearcher::class, Filter\SubjectFilter::class)
+        ->addFilter(Filter\ModeratorNoteSearcher::class, Filter\AuthorFilter::class),
 ];
