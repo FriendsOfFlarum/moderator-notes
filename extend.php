@@ -20,6 +20,10 @@ use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
 use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
 use FoF\ModeratorNotes\Filter\ModeratorNoteFilterer;
 use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('forum'))
@@ -37,9 +41,11 @@ return [
         ->post('/moderatorNote', 'moderator-notes.create', CreateModeratorNoteController::class)
         ->delete('/moderatorNote/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(CurrentUserSerializer::class))
         ->attributes(AddAttributesBasedOnPermission::class),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(UserSerializer::class))
         ->attributes(AddModeratorNoteCount::class),
 
@@ -52,4 +58,5 @@ return [
     (new Extend\Filter(ModeratorNoteFilterer::class))
         ->addFilter(Filter\SubjectFilter::class)
         ->addFilter(Filter\AuthorFilter::class),
+    new Extend\ApiResource(Api\Resource\ModeratorNoteResource::class),
 ];
