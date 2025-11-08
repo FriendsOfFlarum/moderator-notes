@@ -1,18 +1,18 @@
-/// <reference types="flarum/@types/translator-icu-rich" />
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import { IFormModalAttrs } from 'flarum/common/components/FormModal';
+import FormModal from 'flarum/common/components/FormModal';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
 import User from 'flarum/common/models/User';
-export interface ModeratorNotesCreateAttrs extends IInternalModalAttrs {
+export interface ModeratorNotesCreateAttrs extends IFormModalAttrs {
     user?: User;
     callback?: () => void;
 }
-export default class ModeratorNotesCreate extends Modal<ModeratorNotesCreateAttrs> {
+export default class ModeratorNotesCreate extends FormModal<ModeratorNotesCreateAttrs> {
     noteContent: Stream<string>;
     user?: User;
     oninit(vnode: Mithril.Vnode<ModeratorNotesCreateAttrs>): void;
     className(): string;
-    title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
+    title(): string | any[];
     content(): JSX.Element;
     onsubmit(e: Event): void;
     onerror(error: any): void;
