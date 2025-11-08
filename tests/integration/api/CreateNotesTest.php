@@ -18,6 +18,7 @@ use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Flarum\User\User;
+use FoF\ModeratorNotes\Model\ModeratorNote;
 
 class CreateNotesTest extends TestCase
 {
@@ -38,7 +39,7 @@ class CreateNotesTest extends TestCase
             'group_user' => [
                 ['user_id' => 3, 'group_id' => Group::MODERATOR_ID],
             ],
-            'users_notes' => [
+            ModeratorNote::class => [
                 ['id' => 6, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
             ],
         ]);

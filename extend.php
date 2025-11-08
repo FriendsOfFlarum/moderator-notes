@@ -11,19 +11,12 @@
 
 namespace FoF\ModeratorNotes;
 
-use Flarum\Api\Serializer\CurrentUserSerializer;
-use Flarum\Api\Serializer\UserSerializer;
-use Flarum\Extend;
-use FoF\Impersonate\Events\Impersonated;
-use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
-use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
-use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
-use FoF\ModeratorNotes\Filter\ModeratorNoteFilterer;
-use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
-use Flarum\Api\Context;
-use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
-use Flarum\Api\Schema;
+use Flarum\Extend;
+use Flarum\Search\Database\DatabaseSearchDriver;
+use FoF\Impersonate\Events\Impersonated;
+use FoF\ModeratorNotes\Model\ModeratorNote;
+use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
 
 return [
     (new Extend\Frontend('forum'))
@@ -36,26 +29,22 @@ return [
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
-    (new Extend\Routes('api'))
-        ->get('/moderatorNote', 'moderator_notes.index', ListModeratorNotesController::class)
-        ->post('/moderatorNote', 'moderator-notes.create', CreateModeratorNoteController::class)
-        ->delete('/moderatorNote/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
-
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
-    (new Extend\ApiSerializer(CurrentUserSerializer::class))
-        ->attributes(AddAttributesBasedOnPermission::class),
-
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attributes(AddModeratorNoteCount::class),
-
     (new Extend\Event())
         ->listen(Impersonated::class, Listeners\Impersonate::class),
 
     (new Extend\ServiceProvider())
         ->register(ModeratorNotesProvider::class),
+
     new Extend\ApiResource(Api\Resource\ModeratorNoteResource::class),
-    (new Extend\SearchDriver(\Flarum\Search\Database\DatabaseSearchDriver::class))
-        ->addFilter(Filter\ModeratorNoteSearcher::class, Filter\SubjectFilter::class)
-        ->addFilter(Filter\ModeratorNoteSearcher::class, Filter\AuthorFilter::class),
+
+    (new Extend\ApiResource(Resource\UserResource::class))
+        ->fields(Api\UserResourceFields::class),
+
+    (new Extend\Policy())
+        ->modelPolicy(ModeratorNote::class, Access\ModeratorNotePolicy::class),
+
+    (new Extend\SearchDriver(DatabaseSearchDriver::class))
+        ->addSearcher(ModeratorNote::class, Search\ModeratorNoteSearcher::class)
+        ->addFilter(Search\ModeratorNoteSearcher::class, Search\Filter\SubjectFilter::class)
+        ->addFilter(Search\ModeratorNoteSearcher::class, Search\Filter\AuthorFilter::class),
 ];

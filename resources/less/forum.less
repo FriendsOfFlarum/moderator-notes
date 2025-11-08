@@ -103,12 +103,12 @@
         margin-left: -15px;
         border-radius: var(--border-radius);
         transition: background 0.2s;
-        background: var(--control-bg-mix-40);
+        background: var(--control-bg);
         box-shadow: 0 2px 4px 0em rgba(0, 0, 0, 0.04),
             0 3px 10px 0 rgba(0, 0, 0, 0.07);
 
         &:hover {
-            background: var(--control-bg-mix-60);
+            background: var(--control-bg-shaded);
         }
 
         &:hover .ModeratorNotesListItem-controls,
@@ -144,14 +144,4 @@
     textarea {
         resize: vertical;
     }
-}
-
-
-[data-theme^=light] {
-  --control-bg-mix-40: mix(@control-bg-light, @body-bg, 40%);
-  --control-bg-mix-60: mix(@control-bg-light, @body-bg, 60%);
-}
-[data-theme^=dark] {
-  --control-bg-mix-40: mix(@control-bg-dark, @body-bg, 40%);
-  --control-bg-mix-60: mix(@control-bg-dark, @body-bg, 60%);
 }

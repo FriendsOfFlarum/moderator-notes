@@ -51,8 +51,8 @@
                 "fof/impersonate"
             ]
         },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/22925"
+        "branch-alias": {
+            "2.x": "2.0.x-dev"
         },
         "flarum-cli": {
             "modules": {
@@ -80,13 +80,14 @@
     },
     "require-dev": {
         "flarum/core": "^2.0.0-beta",
-        "flarum/markdown": "*@dev",
+        "flarum/markdown": "^2.0.0-beta",
         "flarum/phpstan": "^2.0.0-beta",
         "flarum/testing": "^2.0.0-beta",
-        "fof/impersonate": "*",
+        "fof/impersonate": "^2.0.0-beta",
         "symfony/var-dumper": "*"
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev"
 }
