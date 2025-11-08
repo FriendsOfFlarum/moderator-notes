@@ -24,17 +24,8 @@ class CreateModeratorNoteController extends AbstractCreateController
 {
     public $serializer = ModeratorNotesSerializer::class;
 
-    /**
-     * @var Dispatcher
-     */
-    protected $bus;
-
-    /**
-     * @param Dispatcher $bus
-     */
-    public function __construct(Dispatcher $bus)
+    public function __construct(protected Dispatcher $bus)
     {
-        $this->bus = $bus;
     }
 
     /**

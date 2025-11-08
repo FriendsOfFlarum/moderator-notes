@@ -16,28 +16,10 @@ use Flarum\User\User;
 class DeleteModeratorNote
 {
     /**
-     * The ID of the note.
-     *
-     * @var int
-     */
-    public $noteId;
-
-    /**
-     * The user performing the action.
-     *
-     * @var User
-     */
-    public $actor;
-
-    /**
      * DeleteModeratorNote constructor.
      *
-     * @param      $noteId
-     * @param User $actor
      */
-    public function __construct($noteId, User $actor)
+    public function __construct(public $noteId, public User $actor)
     {
-        $this->noteId = $noteId;
-        $this->actor = $actor;
     }
 }

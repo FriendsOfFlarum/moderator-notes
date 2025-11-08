@@ -17,14 +17,8 @@ use FoF\ModeratorNotes\Repository\ModeratorNotesRepository;
 
 class AddModeratorNoteCount
 {
-    /**
-     * @var ModeratorNotesRepository
-     */
-    protected $notes;
-
-    public function __construct(ModeratorNotesRepository $notes)
+    public function __construct(protected ModeratorNotesRepository $notes)
     {
-        $this->notes = $notes;
     }
 
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array

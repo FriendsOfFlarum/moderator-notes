@@ -20,16 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateModeratorNoteHandler
 {
-    /** @var Dispatcher */
-    protected $events;
-
-    /** @var TranslatorInterface */
-    protected $translator;
-
-    public function __construct(Dispatcher $events, TranslatorInterface $translator)
+    public function __construct(protected Dispatcher $events, protected TranslatorInterface $translator)
     {
-        $this->events = $events;
-        $this->translator = $translator;
     }
 
     /**

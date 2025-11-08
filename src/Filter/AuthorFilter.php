@@ -20,14 +20,8 @@ class AuthorFilter implements FilterInterface
 {
     use ValidateFilterTrait;
 
-    /**
-     * @var ModeratorNotesRepository
-     */
-    protected $notes;
-
-    public function __construct(ModeratorNotesRepository $notes)
+    public function __construct(protected ModeratorNotesRepository $notes)
     {
-        $this->notes = $notes;
     }
 
     public function getFilterKey(): string

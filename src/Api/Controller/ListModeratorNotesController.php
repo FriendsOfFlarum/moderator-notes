@@ -30,26 +30,8 @@ class ListModeratorNotesController extends AbstractListController
 
     public $sortFields = ['createdAt'];
 
-    /**
-     * @var ModeratorNoteFilterer
-     */
-    protected $filterer;
-
-    /**
-     * @var UserRepository
-     */
-    protected $users;
-
-    /**
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    public function __construct(ModeratorNoteFilterer $filterer, UserRepository $users, UrlGenerator $url)
+    public function __construct(protected ModeratorNoteFilterer $filterer, protected UserRepository $users, protected UrlGenerator $url)
     {
-        $this->filterer = $filterer;
-        $this->users = $users;
-        $this->url = $url;
     }
 
     /**

@@ -18,20 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Impersonate
 {
-    /**
-     * @var Bus
-     */
-    protected $bus;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct(Bus $bus, TranslatorInterface $translator)
+    public function __construct(protected Bus $bus, protected TranslatorInterface $translator)
     {
-        $this->bus = $bus;
-        $this->translator = $translator;
     }
 
     public function handle(Impersonated $event): void

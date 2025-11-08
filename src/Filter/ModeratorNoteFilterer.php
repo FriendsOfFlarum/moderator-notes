@@ -19,20 +19,11 @@ use Illuminate\Database\Eloquent\Builder;
 class ModeratorNoteFilterer extends AbstractFilterer
 {
     /**
-     * @var ModeratorNotesRepository
-     */
-    protected $notes;
-
-    /**
-     * @param ModeratorNotesRepository $notes
-     * @param array                    $filters
      * @param array                    $filterMutators
      */
-    public function __construct(ModeratorNotesRepository $notes, array $filters, array $filterMutators)
+    public function __construct(protected ModeratorNotesRepository $notes, array $filters, array $filterMutators)
     {
         parent::__construct($filters, $filterMutators);
-
-        $this->notes = $notes;
     }
 
     protected function getQuery(User $actor): Builder
