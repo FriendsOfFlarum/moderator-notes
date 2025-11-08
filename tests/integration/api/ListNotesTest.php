@@ -16,6 +16,7 @@ use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class ListNotesTest extends TestCase
 {
@@ -28,7 +29,7 @@ class ListNotesTest extends TestCase
         $this->extension('fof-moderator-notes');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 ['id' => 3, 'username' => 'a_moderator', 'email' => 'a_mod@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'toby', 'email' => 'toby@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'bad_user', 'email' => 'bad_user@machine.local', 'is_email_confirmed' => 1],
@@ -44,9 +45,7 @@ class ListNotesTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_user_cannot_list_notes()
     {
         $response = $this->send(
@@ -56,9 +55,7 @@ class ListNotesTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_cannot_list_notes()
     {
         $this->database();
@@ -73,9 +70,7 @@ class ListNotesTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_list_notes_for_user()
     {
         $this->database();
@@ -101,9 +96,7 @@ class ListNotesTest extends TestCase
         $this->assertEquals(1, $response['data'][0]['id']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_list_notes_by_author()
     {
         $this->database();
@@ -129,9 +122,7 @@ class ListNotesTest extends TestCase
         $this->assertEquals(3, $response['data'][0]['id']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_list_notes_by_author_and_subject()
     {
         $this->database();
@@ -157,9 +148,7 @@ class ListNotesTest extends TestCase
         $this->assertEquals(3, $response['data'][0]['id']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_list_notes_by_subject_when_multiple_records_are_present()
     {
         $this->database();
@@ -187,9 +176,7 @@ class ListNotesTest extends TestCase
         $this->assertEquals(3, $response['data'][1]['id']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_permission_can_list_all_notes()
     {
         $this->database();

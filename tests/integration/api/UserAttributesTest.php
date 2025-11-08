@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Flarum\Group\Group;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
 
 class UserAttributesTest extends TestCase
 {
@@ -27,7 +29,7 @@ class UserAttributesTest extends TestCase
         $this->extension('fof-moderator-notes');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 ['id' => 3, 'username' => 'a_moderator', 'email' => 'a_mod@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 4, 'username' => 'toby', 'email' => 'toby@machine.local', 'is_email_confirmed' => 1],
                 ['id' => 5, 'username' => 'bad_user', 'email' => 'bad_user@machine.local', 'is_email_confirmed' => 1],
@@ -41,9 +43,7 @@ class UserAttributesTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_user_does_not_have_moderator_notes_permission_attrs()
     {
         $response = $this->send(
@@ -60,9 +60,7 @@ class UserAttributesTest extends TestCase
         $this->assertArrayNotHasKey('moderatorNoteCount', $response['data']['attributes']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_does_not_have_moderator_notes_permission_attrs()
     {
         $response = $this->send(
@@ -81,9 +79,7 @@ class UserAttributesTest extends TestCase
         $this->assertArrayNotHasKey('moderatorNoteCount', $response['data']['attributes']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_user_has_view_and_create_moderator_notes_permission_attrs()
     {
         $response = $this->send(
@@ -105,9 +101,7 @@ class UserAttributesTest extends TestCase
         $this->assertEquals(0, $response['data']['attributes']['moderatorNoteCount']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_user_has_view_and_create_and_delete_moderator_notes_permission_attrs()
     {
         $this->prepareDatabase([
@@ -134,9 +128,7 @@ class UserAttributesTest extends TestCase
         $this->assertEquals(true, $response['data']['attributes']['canDeleteModeratorNotes']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_can_see_note_count_attr()
     {
         $response = $this->send(
@@ -153,9 +145,7 @@ class UserAttributesTest extends TestCase
         $this->assertEquals(1, $response['data']['attributes']['moderatorNoteCount']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function normal_user_cannot_see_note_count_attr()
     {
         $response = $this->send(
