@@ -80,6 +80,7 @@ class ModeratorNoteResource extends Resource\AbstractDatabaseResource
                 })
                 ->get(function (ModeratorNote $note, Context $context) {
                     $formatter = ModeratorNote::getFormatter();
+
                     return $formatter->render($note->note);
                 }),
 

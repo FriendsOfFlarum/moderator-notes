@@ -48,7 +48,8 @@ class ModeratorNote extends AbstractModel
      * Scope a query to only include notes visible to a user.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param User $actor
+     * @param User                                  $actor
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWhereVisibleTo($query, User $actor)

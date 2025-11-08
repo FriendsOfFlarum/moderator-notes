@@ -49,7 +49,7 @@ class ShowNotesTest extends TestCase
     public static function unauthorizedUserProvider(): array
     {
         return [
-            'guest' => [null],
+            'guest'       => [null],
             'normal user' => [4],
         ];
     }
@@ -70,7 +70,7 @@ class ShowNotesTest extends TestCase
     public static function authorizedUserProvider(): array
     {
         return [
-            'admin' => [1],
+            'admin'     => [1],
             'moderator' => [3],
         ];
     }
