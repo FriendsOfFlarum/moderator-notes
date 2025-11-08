@@ -11,65 +11,63 @@
 
 namespace FoF\ModeratorNotes\Listeners;
 
+use Carbon\Carbon;
 use FoF\Impersonate\Events\Impersonated;
-use FoF\ModeratorNotes\Command\CreateModeratorNote;
-use Illuminate\Contracts\Bus\Dispatcher as Bus;
+use FoF\ModeratorNotes\Events\ModeratorNoteCreated;
+use FoF\ModeratorNotes\Model\ModeratorNote;
+use Illuminate\Contracts\Events\Dispatcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class Impersonate
 {
-    /**
-     * @var Bus
-     */
-    protected $bus;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct(Bus $bus, TranslatorInterface $translator)
+    public function __construct(protected TranslatorInterface $translator, protected Dispatcher $events)
     {
-        $this->bus = $bus;
-        $this->translator = $translator;
     }
 
     public function handle(Impersonated $event): void
     {
+        $formatter = ModeratorNote::getFormatter();
+
         // Leave moderator note on impersonate subject
-        $this->bus->dispatch(
-            new CreateModeratorNote(
-                $event->actor,
-                $event->user->id,
-                $this->translator->trans(
-                    'fof-moderator-notes.api.auto_note',
-                    [
-                        'reason' => (property_exists($event, 'switchReason') &&
-                            $event->switchReason !== ''
-                            ? $event->switchReason
-                            : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
-                    ]
-                )
+        $subjectNote = new ModeratorNote();
+        $subjectNote->user_id = $event->user->id;
+        $subjectNote->note = $formatter->parse(
+            $this->translator->trans(
+                'fof-moderator-notes.api.auto_note',
+                [
+                    'reason' => (property_exists($event, 'switchReason') &&
+                        $event->switchReason !== ''
+                        ? $event->switchReason
+                        : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
+                ]
             )
         );
+        $subjectNote->added_by_user_id = $event->actor->id;
+        $subjectNote->created_at = Carbon::now();
+        $subjectNote->save();
+
+        $this->events->dispatch(new ModeratorNoteCreated($event->actor, $subjectNote));
 
         // Leave moderator note on impersonate actor
-        $this->bus->dispatch(
-            new CreateModeratorNote(
-                $event->actor,
-                $event->actor->id,
-                $this->translator->trans(
-                    'fof-moderator-notes.api.auto_note_actor',
-                    [
-                        'username' => $event->user->username,
-                        'userId'   => $event->user->id,
-                        'reason'   => (property_exists($event, 'switchReason') &&
-                            $event->switchReason !== ''
-                            ? $event->switchReason
-                            : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
-                    ]
-                )
+        $actorNote = new ModeratorNote();
+        $actorNote->user_id = $event->actor->id;
+        $actorNote->note = $formatter->parse(
+            $this->translator->trans(
+                'fof-moderator-notes.api.auto_note_actor',
+                [
+                    'username' => $event->user->username,
+                    'userId'   => $event->user->id,
+                    'reason'   => (property_exists($event, 'switchReason') &&
+                        $event->switchReason !== ''
+                        ? $event->switchReason
+                        : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
+                ]
             )
         );
+        $actorNote->added_by_user_id = $event->actor->id;
+        $actorNote->created_at = Carbon::now();
+        $actorNote->save();
+
+        $this->events->dispatch(new ModeratorNoteCreated($event->actor, $actorNote));
     }
 }

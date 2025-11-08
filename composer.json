@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^1.3.0"
+        "flarum/core": "^2.0.0-beta"
     },
     "authors": [
         {
@@ -51,8 +51,8 @@
                 "fof/impersonate"
             ]
         },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/22925"
+        "branch-alias": {
+            "2.x": "2.0.x-dev"
         },
         "flarum-cli": {
             "modules": {
@@ -79,14 +79,15 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/core": "*@dev",
-        "flarum/markdown": "*@dev",
-        "flarum/phpstan": "*",
-        "flarum/testing": "^1.0.0",
-        "fof/impersonate": "*",
+        "flarum/core": "^2.0.0-beta",
+        "flarum/markdown": "^2.0.0-beta",
+        "flarum/phpstan": "^2.0.0-beta",
+        "flarum/testing": "^2.0.0-beta",
+        "fof/impersonate": "^2.0.0-beta",
         "symfony/var-dumper": "*"
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev"
 }

@@ -3,7 +3,7 @@ import Component, { ComponentAttrs } from 'flarum/common/Component';
 import username from 'flarum/common/helpers/username';
 import fullTime from 'flarum/common/helpers/fullTime';
 import extractText from 'flarum/common/utils/extractText';
-import avatar from 'flarum/common/helpers/avatar';
+import Avatar from 'flarum/common/components/Avatar';
 import Dropdown from 'flarum/common/components/Dropdown';
 import ItemList from 'flarum/common/utils/ItemList';
 import Button from 'flarum/common/components/Button';
@@ -48,7 +48,7 @@ export default class NoteListItem extends Component<NoteListItemAttrs> {
               position="right"
             >
               <Link href={addedByUser ? app.route.user(addedByUser) : '#'} className="ModeratorNotesListItem-author">
-                {addedByUser && avatar(addedByUser)} {addedByUser && username(addedByUser)}
+                {addedByUser && <Avatar user={addedByUser} />} {addedByUser && username(addedByUser)}
               </Link>
             </Tooltip>
           </div>

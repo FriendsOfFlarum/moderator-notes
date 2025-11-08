@@ -11,14 +11,11 @@
 
 namespace FoF\ModeratorNotes;
 
-use Flarum\Api\Serializer\CurrentUserSerializer;
-use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Resource;
 use Flarum\Extend;
+use Flarum\Search\Database\DatabaseSearchDriver;
 use FoF\Impersonate\Events\Impersonated;
-use FoF\ModeratorNotes\Api\Controller\CreateModeratorNoteController;
-use FoF\ModeratorNotes\Api\Controller\DeleteModeratorNoteController;
-use FoF\ModeratorNotes\Api\Controller\ListModeratorNotesController;
-use FoF\ModeratorNotes\Filter\ModeratorNoteFilterer;
+use FoF\ModeratorNotes\Model\ModeratorNote;
 use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
 
 return [
@@ -32,24 +29,22 @@ return [
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
-    (new Extend\Routes('api'))
-        ->get('/moderatorNote', 'moderator_notes.index', ListModeratorNotesController::class)
-        ->post('/moderatorNote', 'moderator-notes.create', CreateModeratorNoteController::class)
-        ->delete('/moderatorNote/{id}', 'moderator_notes.delete', DeleteModeratorNoteController::class),
-
-    (new Extend\ApiSerializer(CurrentUserSerializer::class))
-        ->attributes(AddAttributesBasedOnPermission::class),
-
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attributes(AddModeratorNoteCount::class),
-
     (new Extend\Event())
         ->listen(Impersonated::class, Listeners\Impersonate::class),
 
     (new Extend\ServiceProvider())
         ->register(ModeratorNotesProvider::class),
 
-    (new Extend\Filter(ModeratorNoteFilterer::class))
-        ->addFilter(Filter\SubjectFilter::class)
-        ->addFilter(Filter\AuthorFilter::class),
+    new Extend\ApiResource(Api\Resource\ModeratorNoteResource::class),
+
+    (new Extend\ApiResource(Resource\UserResource::class))
+        ->fields(Api\UserResourceFields::class),
+
+    (new Extend\Policy())
+        ->modelPolicy(ModeratorNote::class, Access\ModeratorNotePolicy::class),
+
+    (new Extend\SearchDriver(DatabaseSearchDriver::class))
+        ->addSearcher(ModeratorNote::class, Search\ModeratorNoteSearcher::class)
+        ->addFilter(Search\ModeratorNoteSearcher::class, Search\Filter\SubjectFilter::class)
+        ->addFilter(Search\ModeratorNoteSearcher::class, Search\Filter\AuthorFilter::class),
 ];

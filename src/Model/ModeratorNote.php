@@ -41,7 +41,24 @@ class ModeratorNote extends AbstractModel
 
     public function addedByUser()
     {
-        return $this->hasOne(User::class, 'id', 'added_by_user_id');
+        return $this->belongsTo(User::class, 'added_by_user_id');
+    }
+
+    /**
+     * Scope a query to only include notes visible to a user.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param User                                  $actor
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereVisibleTo($query, User $actor)
+    {
+        if (!$actor->hasPermission('user.viewModeratorNotes')) {
+            $query->whereRaw('0 = 1');
+        }
+
+        return $query;
     }
 
     /**
