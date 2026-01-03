@@ -1,7 +1,6 @@
 import Extend from 'flarum/common/extenders';
 import ModeratorNote from './model/ModeratorNote';
 import User from 'flarum/common/models/User';
-import ModeratorNotesPage from './components/ModeratorNotesPage';
 
 export default [
   new Extend.Store() //
@@ -14,5 +13,5 @@ export default [
     .attribute<number>('moderatorNoteCount'),
 
   new Extend.Routes() //
-    .add('user.notes', '/u/:username/notes', ModeratorNotesPage),
+    .add('user.notes', '/u/:username/notes', () => import('./components/ModeratorNotesPage')),
 ];
