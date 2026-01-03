@@ -21,6 +21,7 @@ use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
 return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
+        ->jsDirectory(__DIR__.'/js/src/forum')
         ->css(__DIR__.'/resources/less/forum.less'),
 
     (new Extend\Frontend('admin'))
