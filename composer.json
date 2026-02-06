@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "flarum/core": "^2.0.0-beta"
+        "flarum/core": "^2.0.0"
     },
     "authors": [
         {
@@ -79,15 +79,16 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/core": "^2.0.0-beta",
-        "flarum/markdown": "^2.0.0-beta",
-        "flarum/phpstan": "^2.0.0-beta",
-        "flarum/testing": "^2.0.0-beta",
-        "fof/impersonate": "^2.0.0-beta",
+        "flarum/core": "^2.0.0",
+        "flarum/markdown": "^2.0.0",
+        "flarum/phpstan": "^2.0.0",
+        "flarum/testing": "^2.0.0",
+        "fof/impersonate": "^2.0.0",
         "symfony/var-dumper": "*"
     },
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "beta",
+    "prefer-stable": true
 }

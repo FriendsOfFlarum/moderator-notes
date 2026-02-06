@@ -17,8 +17,8 @@ use FoF\ModeratorNotes\Model\ModeratorNote;
 
 class ModeratorNotesProvider extends AbstractServiceProvider
 {
-    public function register()
+    public function boot(Formatter $formatter)
     {
-        ModeratorNote::setFormatter($this->container->make(Formatter::class));
+        ModeratorNote::setFormatter($formatter);
     }
 }

@@ -35,8 +35,7 @@ class Impersonate
             $this->translator->trans(
                 'fof-moderator-notes.api.auto_note',
                 [
-                    'reason' => (property_exists($event, 'switchReason') &&
-                        $event->switchReason !== ''
+                    'reason' => ($event->switchReason !== ''
                         ? $event->switchReason
                         : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
                 ]
@@ -57,8 +56,7 @@ class Impersonate
                 [
                     'username' => $event->user->username,
                     'userId'   => $event->user->id,
-                    'reason'   => (property_exists($event, 'switchReason') &&
-                        $event->switchReason !== ''
+                    'reason'   => ($event->switchReason !== ''
                         ? $event->switchReason
                         : $this->translator->trans('fof-moderator-notes.api.no_reason_provided')),
                 ]
