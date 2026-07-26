@@ -14,14 +14,9 @@ namespace FoF\ModeratorNotes\Api;
 use Flarum\Api\Context;
 use Flarum\Api\Schema;
 use Flarum\User\User;
-use FoF\ModeratorNotes\Repository\ModeratorNotesRepository;
 
 class UserResourceFields
 {
-    public function __construct(protected ModeratorNotesRepository $notes)
-    {
-    }
-
     public function __invoke(): array
     {
         return [
@@ -39,9 +34,9 @@ class UserResourceFields
 
             Schema\Integer::make('moderatorNoteCount')
                 ->visible(fn (User $user, Context $context) => $context->getActor()->can('viewModeratorNotes', $user))
-                ->get(function (User $user, Context $context) {
-                    return $this->notes->query()->where('user_id', $user->id)->count();
-                }),
+                // Batched into one aggregate query for all serialized users,
+                // instead of one COUNT query per user.
+                ->countRelation('moderatorNotes'),
         ];
     }
 }

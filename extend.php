@@ -14,6 +14,7 @@ namespace FoF\ModeratorNotes;
 use Flarum\Api\Resource;
 use Flarum\Extend;
 use Flarum\Search\Database\DatabaseSearchDriver;
+use Flarum\User\User;
 use FoF\Impersonate\Events\Impersonated;
 use FoF\ModeratorNotes\Model\ModeratorNote;
 use FoF\ModeratorNotes\Provider\ModeratorNotesProvider;
@@ -29,6 +30,9 @@ return [
         ->css(__DIR__.'/resources/less/admin.less'),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
+
+    (new Extend\Model(User::class))
+        ->hasMany('moderatorNotes', ModeratorNote::class, 'user_id'),
 
     (new Extend\Event())
         ->listen(Impersonated::class, Listeners\Impersonate::class),
