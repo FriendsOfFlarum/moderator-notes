@@ -62,9 +62,9 @@ class NoteCountQueryCountTest extends TestCase
         }
 
         $this->prepareDatabase([
-            User::class => $users,
+            User::class       => $users,
             Discussion::class => $discussions,
-            'users_notes' => [
+            'users_notes'     => [
                 [
                     'id'                => 1,
                     'user_id'           => 3,
