@@ -41,7 +41,7 @@ class ListNotesTest extends TestCase
             ModeratorNote::class => [
                 ['id' => 1, 'user_id' => 5, 'note' => '<t><p>bad_user has been naughty</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
                 ['id' => 2, 'user_id' => 4, 'note' => '<t><p>a moderator note</p></t>', 'added_by_user_id' => 3, 'created_at' => Carbon::now()],
-                ['id' => 3, 'user_id' => 4, 'note' => '<t><p>another moderator note</p></t>', 'added_by_user_id' => 99, 'created_at' => Carbon::now()],
+                ['id' => 3, 'user_id' => 4, 'note' => '<t><p>another moderator note</p></t>', 'added_by_user_id' => 99, 'created_at' => Carbon::now()->subMinute()],
             ],
         ]);
     }
